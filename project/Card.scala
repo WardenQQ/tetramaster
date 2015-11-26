@@ -1,8 +1,3 @@
-class Card(fleches : Array[Int], atq : Int, defPhysique : Int, defMagique : Int, type : String){
-	var tabFleches : Array[Int] = fleches
-	var attaque : Int = atq
-	var dPhys : Int = defPhysique
-	var dMag : Int = defMagique
-	var type : String = String
-	
+class Card(val fleches : Array[Int], val atq : Int, val defPhysique : Int, val defMagique : Int, val type : String){
+	/** COUCOU JE SUIS EN PLS */
 }
