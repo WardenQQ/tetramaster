@@ -1,8 +1,8 @@
 import scala.util.Random
-import Array._
 
 class GameGrid {
   var grid = Array.fill[Cell](GameGrid.width, GameGrid.height) { ReplaceableCell }
+  var curPos = (0, 0)
 
   val numBlocks = Random.nextInt(GameGrid.maxBlocks)
   for (i <- 0 until numBlocks)
@@ -27,6 +27,44 @@ class GameGrid {
       }
 
     playable
+  }
+
+
+  def addCard(card: Card, pos: (Int, Int), team: Int) = {
+    var playable = playableCells()
+
+    if (playable.contains(pos)) {
+      grid(pos._1)( pos._2) = CardCell(Card.random(), (pos._1, pos._2), team)
+      curPos = pos
+    }
+  }
+
+
+  def battlesToResolve(): List[(Int, Int)] = {
+    var battles: List[(Int, Int)] = null
+    grid(curPos._1)(curPos._2) match {
+      case curCard: CardCell =>
+        battles = curCard.connectedCells
+          .filter {
+            case (i, j) => grid(i)(j) match {
+              case card: CardCell => card.isDifferentTeam(curCard) && card.isConnectedTo((curPos._1, curPos._2))
+              case _ => false
+            }
+          }
+    }
+
+    battles
+  }
+
+
+  override def toString: String = {
+    var string = ""
+    for (array <- grid) {
+      for (cell <-array)
+        string += cell.toString + " "
+      string += "\n"
+    }
+    string
   }
 }
 
