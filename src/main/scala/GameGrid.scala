@@ -2,17 +2,32 @@ import scala.util.Random
 import Array._
 
 class GameGrid {
-  var grid = ofDim[Int](GameGrid.width, GameGrid.height)
+  var grid = Array.fill[Cell](GameGrid.width, GameGrid.height) { ReplaceableCell }
 
   val numBlocks = Random.nextInt(GameGrid.maxBlocks)
-  for (i <- 0 to numBlocks)
-    grid(Random.nextInt(GameGrid.width))(Random.nextInt(GameGrid.height)) = 1
+  for (i <- 0 until numBlocks)
+    grid(Random.nextInt(GameGrid.width))(Random.nextInt(GameGrid.height)) = BlockCell
 
-  override def toString: String = {
-    grid.map(l => l.foldLeft("")((a, b) => a.concat(b.toString)))
-      .foldLeft("")((a, b) => a.concat(b.toString).concat("\n"))
+
+  def playableCells(): List[(Int, Int)] = {
+    var playable = List[(Int, Int)]()
+
+    for (i <- 0 until GameGrid.width)
+      for (j <- 0 until GameGrid.height)
+        playable = (i, j)::playable
+
+    playable = playable.reverse
+
+    playable = playable
+      .filter{
+        case (i, j) => grid(i)(j) match {
+          case ReplaceableCell => true
+          case _ => false
+        }
+      }
+
+    playable
   }
-
 }
 
 object GameGrid {

@@ -1,5 +1,7 @@
 object Main {
   def main(args: Array[String]): Unit = {
-    print(new GameGrid)
+    val test = new GameGrid
+    val playable = test.playableCells()
+    print("Nothing")
   }
 }

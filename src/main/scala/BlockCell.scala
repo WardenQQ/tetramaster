@@ -1,0 +1,2 @@
+
+object BlockCell extends Cell {}
