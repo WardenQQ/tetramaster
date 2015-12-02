@@ -1,0 +1,2 @@
+
+object ReplaceableCell extends Cell {}
