@@ -1,20 +1,27 @@
 import scala.util.Random
 
-class Card(val fleches: Array[Boolean], val atq: Int, val defPhysique: Int, val defMagique: Int, val atqType: String) {
+class Card(val arrows: Array[Boolean],
+           val power: Int,
+           val physicalDefense: Int,
+           val magicalDefense: Int,
+           val powerType: String) {
+
+  def lowestDefense: Int = {
+    if (physicalDefense > magicalDefense)
+      magicalDefense
+    else
+      physicalDefense
+  }
 }
 
 object Card {
   def random(): Card = {
-    val fleches = Array(
-      Random.nextBoolean(),
-      Random.nextBoolean(),
-      Random.nextBoolean(),
-      Random.nextBoolean(),
-      Random.nextBoolean(),
-      Random.nextBoolean(),
-      Random.nextBoolean(),
-      Random.nextBoolean()
-    )
-    new Card(fleches, 0, 0, 0, "Magic");
+    val arrows = Array.fill(8){ Random.nextBoolean() }
+    val powerType = Random.nextInt(3) match {
+      case 0 => "P"
+      case 1 => "M"
+      case 2 => "X"
+    }
+    new Card(arrows, Random.nextInt(16), Random.nextInt(16), Random.nextInt(16), powerType);
   }
 }

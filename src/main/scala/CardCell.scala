@@ -1,4 +1,6 @@
-class CardCell(val team: Int, val connectedCells: List[(Int, Int)]) extends Cell {
+import scala.util.Random
+
+class CardCell(val card: Card, var team: Int, val connectedCells: List[(Int, Int)]) extends Cell {
 
   def isDifferentTeam(other: CardCell): Boolean = {
     team != other.team
@@ -7,6 +9,22 @@ class CardCell(val team: Int, val connectedCells: List[(Int, Int)]) extends Cell
 
   def isConnectedTo(pos: (Int, Int)): Boolean = {
     connectedCells.contains(pos)
+  }
+
+  def attack(defender: CardCell): Boolean = {
+    var attack = card.power * 16
+
+    var defense =
+      card.powerType match {
+        case "P" => defender.card.physicalDefense * 16
+        case "M" => defender.card.magicalDefense * 16
+        case "X" => defender.card.lowestDefense * 16
+      }
+
+    attack = attack + Random.nextInt(16)
+    defense = defense + Random.nextInt(16)
+
+    attack > defense
   }
 
 
@@ -21,7 +39,7 @@ class CardCell(val team: Int, val connectedCells: List[(Int, Int)]) extends Cell
 object CardCell {
   def apply(card: Card, pos: (Int, Int), team: Int): CardCell = {
     val connectedCells =
-      card.fleches
+      card.arrows
         .toList
         .zipWithIndex
         .filter{ case (b, i) => b }
@@ -46,6 +64,6 @@ object CardCell {
           case _ => true
         }
 
-    return new CardCell(team, connectedCells)
+    return new CardCell(card, team, connectedCells)
   }
 }

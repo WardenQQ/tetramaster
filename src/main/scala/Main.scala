@@ -6,28 +6,55 @@ object Main {
     var playable = grid.playableCells()
     var team = 0
 
-    while (!playable.isEmpty) {
-      print(grid.toString)
+    var decks = Array.tabulate[(Int, Card)](2, 5){ (i, j) => (1, Card.random()) }
 
-      print("x: ")
-      var y = StdIn.readInt() % 4
-      print("y: ")
-      var x = StdIn.readInt() % 4
+    while (!(decks(0).isEmpty && decks(1).isEmpty)) {
+      var deck = decks(team)
 
-      grid.addCard(Card.random(), (x, y), team)
+      println(grid.toString)
 
-      val list = grid.battlesToResolve()
+      println("Replaceable cells: "+ playable)
 
-      println(list)
+      print("Place card number?: ")
+      val num = StdIn.readInt()
+      print("Place card x: ")
+      val x = StdIn.readInt()
+      print("Place card y: ")
+      val y = StdIn.readInt()
+
+      val hasCard = deck.exists{
+        case (num, _) => true
+        case _ => false
+      }
+
+      if (hasCard) {
+        grid.addCard(Card.random(), (x, y), team)
+      }
+
+
+
+      var battles = grid.battlesToResolve()
+      var isResolvingBattles = battles.size > 0
+      while (isResolvingBattles) {
+
+        println("Battles to resolve: " + battles)
+
+        print("Battle card x: ")
+        val x2 = StdIn.readInt()
+        print("Battle card y: ")
+        val y2 = StdIn.readInt()
+
+
+        val wonBattle = grid.doBattle((x, y), (x2, y2))
+
+          battles = grid.battlesToResolve()
+
+        isResolvingBattles = wonBattle && battles.size > 0
+      }
 
       playable = grid.playableCells()
       team = (team + 1) % 2
     }
-
-    print(grid.toString)
-
-//    val card = new Card(Array(true, true, true, true, true, true, true, true), 1, 1, 1, "Magic")
-    var card = Card.random()
 
     print(grid.toString)
   }
