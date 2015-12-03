@@ -1,2 +1,4 @@
 
-object ReplaceableCell extends Cell {}
+object ReplaceableCell extends Cell {
+  override def toString: String = "Empty"
+}
