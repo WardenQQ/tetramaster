@@ -11,8 +11,8 @@ import android.widget.EditText;
 public class MainActivity extends AppCompatActivity {
     String addr;
     int port;
-    Button btn_envois;
-    Button btn_geoloc;
+
+    Button btn_envois, btn_grid, btn_geoloc;
     EditText txt_connect;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +24,16 @@ public class MainActivity extends AppCompatActivity {
         btn_envois     = (Button) findViewById(R.id.btn_envois);
         btn_geoloc     = (Button) findViewById(R.id.btn_geoloc);
         txt_connect    = (EditText) findViewById(R.id.txt_connect);
+        btn_grid       = (Button) findViewById(R.id.buttonGrid);
+
+        btn_grid.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), Grid.class));
+            }
+        });
+
 
         btn_envois.setOnClickListener(new OnClickListener(){
             @Override
