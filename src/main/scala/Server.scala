@@ -11,7 +11,7 @@ object Server
     {
       val socket = new ServerSocket(this.PORT)
 
-      // On crée un thread pour chaque nouvelle connexion
+      // On crÃ©e un thread pour chaque nouvelle connexion
       while ( true )
       {
         new ServerThread(socket.accept()).start()
