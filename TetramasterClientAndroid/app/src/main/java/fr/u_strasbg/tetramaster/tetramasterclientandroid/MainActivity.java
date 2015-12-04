@@ -1,5 +1,6 @@
 package fr.u_strasbg.tetramaster.tetramasterclientandroid;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +11,7 @@ import android.widget.EditText;
 public class MainActivity extends AppCompatActivity {
     String addr;
     int port;
-    Button btn_envois;
+    Button btn_envois, btn_grid;
     EditText txt_connect;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +22,16 @@ public class MainActivity extends AppCompatActivity {
 
         btn_envois     = (Button) findViewById(R.id.btn_envois);
         txt_connect    = (EditText) findViewById(R.id.txt_connect);
+        btn_grid       = (Button) findViewById(R.id.buttonGrid);
+
+        btn_grid.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), Grid.class));
+            }
+        });
+
 
         btn_envois.setOnClickListener(new OnClickListener(){
             @Override
