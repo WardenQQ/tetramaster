@@ -10,7 +10,15 @@ class ServerThread(socket: Socket) extends Thread("ServerThread")
       val out = new ObjectOutputStream(new DataOutputStream(socket.getOutputStream()))
       val in =  new ObjectInputStream(new DataInputStream(socket.getInputStream()))
 
-      out.writeChars("1 2 3 TEST")
+      val message = new MessageInit()
+      message.setGrid(Array.tabulate[Int](4, 4) { (i, j) => i })
+
+      out.writeObject(new MessageInit)
+      in.readObject() match {
+        case a: MessagePlaceCard => println("MessagePlaceCard")
+        case a: MessageChooseBattle => println("MessageChooseBattle")
+        case _ => println("Unknown type")
+      }
 
       out.close()
       in.close()

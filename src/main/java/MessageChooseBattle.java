@@ -1,13 +1,13 @@
-import java.lang.System;
 
-public class MessageChooseBattle implements Message{
+public class MessageChooseBattle implements Message {
+    private int xPos;
+    private int yPos;
 
-    int xPos;
-    int yPos;
-    public MessageChooseBattle(int xPos,int yPos){
+    public MessageChooseBattle(int xPos,int yPos) {
         this.xPos = xPos;
         this.yPos = yPos;
     }
+
     public int getxPos() {
         return xPos;
     }

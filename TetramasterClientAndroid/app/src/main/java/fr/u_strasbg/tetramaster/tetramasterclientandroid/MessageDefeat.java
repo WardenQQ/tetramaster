@@ -1,0 +1,3 @@
+package fr.u_strasbg.tetramaster.tetramasterclientandroid;
+
+public class MessageDefeat implements Message {}

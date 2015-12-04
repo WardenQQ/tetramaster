@@ -1,17 +1,17 @@
-import com.sun.corba.se.impl.protocol.giopmsgheaders.Message;
+package fr.u_strasbg.tetramaster.tetramasterclientandroid;
 
-import java.lang.System;
-
-public class MessagePlaceCard implements Message{
+public class MessagePlaceCard implements Message {
     int xPos;
     int yPos;
     int idMap;
+
     public MessagePlaceCard(int xPos,int yPos,int idMap)
     {
         this.xPos = xPos;
         this.yPos = yPos;
         this.idMap = idMap;
     }
+
     public int getxPos() {
         return xPos;
     }

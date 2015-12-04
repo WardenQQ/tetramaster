@@ -2,6 +2,7 @@ import scala.io.StdIn
 
 object Main {
   def main(args: Array[String]): Unit = {
+    Server.listen()
     val grid = new GameGrid
     var playable = grid.playableCells()
     var team = 0
