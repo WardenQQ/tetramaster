@@ -16,6 +16,7 @@ import java.util.Vector;
 
 public class GridAdapter extends BaseAdapter {
     private Context mContext;
+    public Vector<Integer> positions=new Vector<Integer>();
 
     // Keep all Images in array
 
@@ -26,11 +27,20 @@ public class GridAdapter extends BaseAdapter {
     // Constructor
     public GridAdapter(Context c){
         mContext = c;
-        for (int i=0;i<16;i++)
+        for (int i=0;i<8;i++)
         {
-            cell[i]=new EmptyView(mContext);
+            cell[i]=new EmptyView(mContext,true);
+        }
+        for (int i=8;i<16;i++)
+        {
+            cell[i]=new EmptyView(mContext,false);
         }
         setObstacles();
+        getPosClickableFromServ();
+        for(int j=0;j<positions.size();j++)
+        {
+
+        }
 
     }
 
@@ -82,6 +92,17 @@ public class GridAdapter extends BaseAdapter {
         vect.addElement(true);
         vect.addElement(true);
         Card myCard=new Card(vect,1,1,1,"COUCOU");
-        cell[12]=new CardView(mContext,myCard);
+        cell[12]=new CardView(mContext,myCard,1,true);
+        cell[13]=new CardView(mContext,myCard,2,false);
+    }
+
+    public Vector<Integer> getPosClickableFromServ()
+    {
+        positions.add(0);
+        positions.add(3);
+        positions.add(5);
+        positions.add(8);
+        positions.add(9);
+        return positions;
     }
 }

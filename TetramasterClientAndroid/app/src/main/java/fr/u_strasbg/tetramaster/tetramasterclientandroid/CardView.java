@@ -17,11 +17,15 @@ import java.util.Vector;
  */
 public class CardView extends View {
 
-    Card myCard;
-    public CardView(Context context,Card card)
+    public Card myCard;
+    public int joueur;
+    public boolean clickable;
+    public CardView(Context context,Card card,int joueur,boolean clickable)
     {
         super(context);
         myCard=card;
+        this.joueur=joueur;
+        this.clickable=clickable;
     }
 
     @Override
@@ -29,16 +33,31 @@ public class CardView extends View {
         super.onDraw(canvas);
         int x=90;
         int y=90;
-        Paint paint = new Paint();
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.GREEN);
-        canvas.drawRect(0, 0, x, y, paint);
+        Paint paintCard = new Paint();
+        paintCard.setStyle(Paint.Style.FILL);
+        if(this.joueur==1)
+        {
+            paintCard.setColor(Color.GREEN);
+        }
+        else if(this.joueur==2)
+        {
+            paintCard.setColor(Color.RED);
+        }
+        canvas.drawRect(0, 0, x, y, paintCard);
+        Paint paintClickable = new Paint();
+        paintClickable.setStyle(Paint.Style.FILL);
+        paintClickable.setColor(Color.BLACK);
+        if(this.clickable)
+        {
+            canvas.drawCircle(x/2,y/2,15,paintClickable);
+        }
+
         Paint paintArray = new Paint();
         paintArray.setStyle(Paint.Style.FILL_AND_STROKE);
         paintArray.setStrokeWidth(2);
         paintArray.setColor(Color.YELLOW);
         paintArray.setAntiAlias(true);
-        if (myCard.getArrays().elementAt(0)==true)
+        if(myCard.getArrays().elementAt(0)==true)
         {
             Point pt1=new Point(x/2,0);
             Point pt2=new Point(x/2+10,10);

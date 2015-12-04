@@ -10,9 +10,11 @@ import android.view.View;
  * Created by Ricardo on 03/12/2015.
  */
 public class EmptyView extends View {
-    public EmptyView(Context context)
+    public boolean clickable;
+    public EmptyView(Context context,boolean clickable)
     {
         super(context);
+        this.clickable=clickable;
     }
 
     @Override
@@ -22,7 +24,14 @@ public class EmptyView extends View {
         int y=90;
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.WHITE);
+        if(this.clickable)
+        {
+            paint.setColor(Color.YELLOW);
+        }
+        else
+        {
+            paint.setColor(Color.WHITE);
+        }
         canvas.drawRect(0,0,x,y,paint);
     }
 }

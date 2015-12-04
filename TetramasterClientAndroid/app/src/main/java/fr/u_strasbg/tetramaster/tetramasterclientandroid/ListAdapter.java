@@ -75,10 +75,10 @@ public class ListAdapter extends BaseAdapter {
         vect.addElement(false);
         Card myCard=new Card(vect,1,1,1,"COUCOU");
 
-        cell[0]=new CardView(mContext,myCard);
-        cell[1]=new CardView(mContext,myCard);
-        cell[2]=new CardView(mContext,myCard);
-        cell[3]=new CardView(mContext,myCard);
-        cell[4]=new CardView(mContext,myCard);
+        cell[0]=new CardView(mContext,myCard,1,true);
+        cell[1]=new CardView(mContext,myCard,1,true);
+        cell[2]=new CardView(mContext,myCard,1,true);
+        cell[3]=new CardView(mContext,myCard,1,true);
+        cell[4]=new CardView(mContext,myCard,1,true);
     }
 }
