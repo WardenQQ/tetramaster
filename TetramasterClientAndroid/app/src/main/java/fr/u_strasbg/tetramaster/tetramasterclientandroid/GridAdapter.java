@@ -82,15 +82,15 @@ public class GridAdapter extends BaseAdapter {
             int nombreAleatoire = rand.nextInt(16);
             cell[nombreAleatoire] = new BlockView(mContext);
         }
-        Vector<Boolean>vect = new Vector<Boolean>();
-        vect.addElement(true);
-        vect.addElement(true);
-        vect.addElement(true);
-        vect.addElement(true);
-        vect.addElement(true);
-        vect.addElement(true);
-        vect.addElement(true);
-        vect.addElement(true);
+        Boolean[] vect = new Boolean[8];
+        vect[0]=true;
+        vect[1]=true;
+        vect[2]=true;
+        vect[3]=true;
+        vect[4]=true;
+        vect[5]=true;
+        vect[6]=true;
+        vect[7]=true;
         Card myCard=new Card(vect,1,1,1,"COUCOU");
         cell[12]=new CardView(mContext,myCard,1,true);
         cell[13]=new CardView(mContext,myCard,2,false);
