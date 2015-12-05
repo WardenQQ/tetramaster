@@ -6,17 +6,17 @@ import java.util.Vector;
  * Created by Ricardo on 03/12/2015.
  */
 public class Card {
-    private Vector<Boolean> arrays;
+    private Boolean[] arrays;
     private int magicalDef;
     private int physicalDef;
     private int attack;
     private String powerType;
 
-    public Vector<Boolean> getArrays() {
+    public Boolean[] getArrays() {
         return arrays;
     }
 
-    public void setArrays(Vector<Boolean> arrays) {
+    public void setArrays(Boolean[] arrays) {
         this.arrays = arrays;
     }
 
@@ -52,7 +52,7 @@ public class Card {
         this.powerType = powerType;
     }
 
-    public Card(Vector<Boolean> arrays,int magicalDef,int physicalDef,int attack,String powerType)
+    public Card(Boolean[] arrays,int magicalDef,int physicalDef,int attack,String powerType)
     {
         this.setArrays(arrays);
         this.setMagicalDef(magicalDef);

@@ -63,16 +63,15 @@ public class ListAdapter extends BaseAdapter {
 
     public void setCardsInList()
     {
-
-        Vector<Boolean>vect = new Vector<Boolean>();
-        vect.addElement(true);
-        vect.addElement(false);
-        vect.addElement(false);
-        vect.addElement(true);
-        vect.addElement(false);
-        vect.addElement(true);
-        vect.addElement(false);
-        vect.addElement(false);
+        Boolean[] vect = new Boolean[8];
+        vect[0]=true;
+        vect[1]=false;
+        vect[2]=true;
+        vect[3]=false;
+        vect[4]=true;
+        vect[5]=false;
+        vect[6]=true;
+        vect[7]=false;
         Card myCard=new Card(vect,1,1,1,"COUCOU");
 
         cell[0]=new CardView(mContext,myCard,1,true);

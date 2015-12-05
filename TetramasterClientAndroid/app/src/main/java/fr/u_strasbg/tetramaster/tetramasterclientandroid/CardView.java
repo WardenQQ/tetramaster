@@ -57,7 +57,7 @@ public class CardView extends View {
         paintArray.setStrokeWidth(2);
         paintArray.setColor(Color.YELLOW);
         paintArray.setAntiAlias(true);
-        if(myCard.getArrays().elementAt(0)==true)
+        if(myCard.getArrays()[0])
         {
             Point pt1=new Point(x/2,0);
             Point pt2=new Point(x/2+10,10);
@@ -71,7 +71,7 @@ public class CardView extends View {
             path.close();
             canvas.drawPath(path,paintArray);
         }
-        if (myCard.getArrays().elementAt(1)==true)
+        if (myCard.getArrays()[1])
         {
             Point pt1=new Point(x-10,0);
             Point pt2=new Point(x,0);
@@ -85,7 +85,7 @@ public class CardView extends View {
             path.close();
             canvas.drawPath(path,paintArray);
         }
-        if (myCard.getArrays().elementAt(2)==true)
+        if (myCard.getArrays()[2])
         {
             Point pt1=new Point(x,y/2);
             Point pt2=new Point(x-10,y/2-10);
@@ -99,7 +99,7 @@ public class CardView extends View {
             path.close();
             canvas.drawPath(path,paintArray);
         }
-        if (myCard.getArrays().elementAt(3)==true)
+        if (myCard.getArrays()[3])
         {
             Point pt1=new Point(x,y);
             Point pt2=new Point(x-10,y);
@@ -113,7 +113,7 @@ public class CardView extends View {
             path.close();
             canvas.drawPath(path,paintArray);
         }
-        if (myCard.getArrays().elementAt(4)==true)
+        if (myCard.getArrays()[4])
         {
             Point pt1=new Point(x/2,y);
             Point pt2=new Point(x/2+10,y-10);
@@ -127,7 +127,7 @@ public class CardView extends View {
             path.close();
             canvas.drawPath(path,paintArray);
         }
-        if (myCard.getArrays().elementAt(5)==true)
+        if (myCard.getArrays()[5])
         {
             Point pt1=new Point(0,y);
             Point pt2=new Point(10,y);
@@ -141,7 +141,7 @@ public class CardView extends View {
             path.close();
             canvas.drawPath(path,paintArray);
         }
-        if (myCard.getArrays().elementAt(6)==true)
+        if (myCard.getArrays()[6])
         {
             Point pt1=new Point(0,y/2);
             Point pt2=new Point(10,y/2+10);
@@ -155,7 +155,7 @@ public class CardView extends View {
             path.close();
             canvas.drawPath(path,paintArray);
         }
-        if (myCard.getArrays().elementAt(7)==true)
+        if (myCard.getArrays()[7])
         {
             Point pt1=new Point(0,0);
             Point pt2=new Point(10,0);
