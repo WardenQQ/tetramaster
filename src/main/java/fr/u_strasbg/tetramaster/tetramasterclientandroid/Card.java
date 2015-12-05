@@ -1,6 +1,8 @@
 package fr.u_strasbg.tetramaster.tetramasterclientandroid;
 
 import java.io.Serializable;
+import java.util.Vector;
+
 
 public class Card implements Serializable {
     private int id;

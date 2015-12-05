@@ -33,36 +33,11 @@ public class Client extends AsyncTask<Void, Void, Void> {
         try {
             socket = new Socket(dstAddress, dstPort);
 
-//            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(1024);
-//            byte[] buffer = new byte[1024];
-//
-//            int bytesRead;
-//            InputStream inputStream = socket.getInputStream();
-//
-//         /*
-//          * notice: inputStream.read() will block if no data return
-//          */
-//            while ((bytesRead = inputStream.read(buffer)) != -1) {
-//                byteArrayOutputStream.write(buffer, 0, bytesRead);
-//                response += byteArrayOutputStream.toString("UTF-8");
-//            }
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
-            Message msg = (Message) in.readObject();
-
-            if (msg instanceof MessageInit) {
-                MessageInit messageInit = (MessageInit)msg;
-                messageInit.getGrid();
-            }
-
-            MessageChooseBattle messageChooseBattle = new MessageChooseBattle(3, 5);
-            out.writeObject(messageChooseBattle);
-
-            MessagePlaceCard messagePlaceCard = new MessagePlaceCard(4, 8, 16);
-            out.writeObject(messagePlaceCard);
-
-
+            MessageSetDeckList msgSetDeckList = (MessageSetDeckList)in.readObject();
+            Card[] deck = msgSetDeckList.deck;
 
         } catch (UnknownHostException e) {
             // TODO Auto-generated catch block

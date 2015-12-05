@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        addr = "130.79.206.217";
+        addr = "192.168.0.134";//"130.79.206.217";
         port = 1024;
 
         btn_envois     = (Button) findViewById(R.id.btn_envois);

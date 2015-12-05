@@ -1,5 +1,10 @@
+package fr.u_strasbg.tetramaster.tetramasterclientandroid;
 
-public class MessagePlaceCard implements Message {
+import java.io.Serializable;
+
+public class MessagePlaceCard implements Message, Serializable {
+    private static final long serialVersionUID = 1L;
+
     int xPos;
     int yPos;
     int idMap;

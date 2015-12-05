@@ -82,7 +82,7 @@ public class GridAdapter extends BaseAdapter {
             int nombreAleatoire = rand.nextInt(16);
             cell[nombreAleatoire] = new BlockView(mContext);
         }
-        Boolean[] vect = new Boolean[8];
+        boolean[] vect = new boolean[8];
         vect[0]=true;
         vect[1]=true;
         vect[2]=true;

@@ -63,7 +63,7 @@ public class ListAdapter extends BaseAdapter {
 
     public void setCardsInList()
     {
-        Boolean[] vect = new Boolean[8];
+        boolean[] vect = new boolean[8];
         vect[0]=true;
         vect[1]=false;
         vect[2]=true;

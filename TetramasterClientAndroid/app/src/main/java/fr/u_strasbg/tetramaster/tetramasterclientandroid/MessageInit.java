@@ -1,6 +1,10 @@
 package fr.u_strasbg.tetramaster.tetramasterclientandroid;
 
-public class MessageInit implements Message {
+import java.io.Serializable;
+
+public class MessageInit implements Message, Serializable {
+    private static final long serialVersionUID = 1L;
+    
     private int[][] grid;
 
     private boolean[] arrows;
