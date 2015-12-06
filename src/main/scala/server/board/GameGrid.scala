@@ -1,3 +1,5 @@
+package server.board
+
 import scala.util.Random
 
 class GameGrid {

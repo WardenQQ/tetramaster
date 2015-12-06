@@ -1,3 +1,6 @@
+package server.board
+
+
 import scala.util.Random
 
 class CardCell(val card: Card, var team: Int, val connectedCells: List[(Int, Int)]) extends Cell {
