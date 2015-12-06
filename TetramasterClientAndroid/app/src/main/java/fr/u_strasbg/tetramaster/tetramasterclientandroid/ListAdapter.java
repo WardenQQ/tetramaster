@@ -7,12 +7,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.graphics.drawable.Drawable;
-
-import java.util.Random;
-import java.util.Vector;
 
 public class ListAdapter extends BaseAdapter {
     private Context mContext;
@@ -72,7 +66,7 @@ public class ListAdapter extends BaseAdapter {
         vect[5]=false;
         vect[6]=true;
         vect[7]=false;
-        Card myCard=new Card(vect,1,1,1,"COUCOU");
+        fr.u_strasbg.tetramaster.shared.Card myCard=new fr.u_strasbg.tetramaster.shared.Card(vect,1,1,1,"COUCOU");
 
         cell[0]=new CardView(mContext,myCard,1,true);
         cell[1]=new CardView(mContext,myCard,1,true);

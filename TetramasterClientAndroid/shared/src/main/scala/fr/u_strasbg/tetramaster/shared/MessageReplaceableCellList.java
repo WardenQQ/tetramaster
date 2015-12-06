@@ -1,4 +1,4 @@
-package fr.u_strasbg.tetramaster.tetramasterclientandroid;
+package fr.u_strasbg.tetramaster.shared;
 
 import java.io.Serializable;
 

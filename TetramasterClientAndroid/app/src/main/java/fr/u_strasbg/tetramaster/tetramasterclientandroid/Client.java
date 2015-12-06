@@ -5,6 +5,7 @@ package fr.u_strasbg.tetramaster.tetramasterclientandroid;
  */
 import android.os.AsyncTask;
 import android.widget.TextView;
+import fr.u_strasbg.tetramaster.shared.MessageSetDeckList;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -36,8 +37,8 @@ public class Client extends AsyncTask<Void, Void, Void> {
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
-            MessageSetDeckList msgSetDeckList = (MessageSetDeckList)in.readObject();
-            Card[] deck = msgSetDeckList.deck;
+            fr.u_strasbg.tetramaster.shared.MessageSetDeckList msgSetDeckList = (MessageSetDeckList)in.readObject();
+            fr.u_strasbg.tetramaster.shared.Card[] deck = msgSetDeckList.deck;
 
         } catch (UnknownHostException e) {
             // TODO Auto-generated catch block
