@@ -6,9 +6,9 @@ package fr.u_strasbg.tetramaster.tetramasterclientandroid;
 import android.os.AsyncTask;
 import android.widget.TextView;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -33,19 +33,11 @@ public class Client extends AsyncTask<Void, Void, Void> {
         try {
             socket = new Socket(dstAddress, dstPort);
 
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(1024);
-            byte[] buffer = new byte[1024];
+            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
-            int bytesRead;
-            InputStream inputStream = socket.getInputStream();
-
-         /*
-          * notice: inputStream.read() will block if no data return
-          */
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                byteArrayOutputStream.write(buffer, 0, bytesRead);
-                response += byteArrayOutputStream.toString("UTF-8");
-            }
+            MessageSetDeckList msgSetDeckList = (MessageSetDeckList)in.readObject();
+            Card[] deck = msgSetDeckList.deck;
 
         } catch (UnknownHostException e) {
             // TODO Auto-generated catch block
@@ -55,6 +47,8 @@ public class Client extends AsyncTask<Void, Void, Void> {
             // TODO Auto-generated catch block
             e.printStackTrace();
             response = "IOException: " + e.toString();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         } finally {
             if (socket != null) {
                 try {

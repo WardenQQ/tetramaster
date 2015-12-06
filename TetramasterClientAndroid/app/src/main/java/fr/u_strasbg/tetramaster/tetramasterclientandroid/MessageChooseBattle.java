@@ -1,13 +1,18 @@
-import java.lang.System;
+package fr.u_strasbg.tetramaster.tetramasterclientandroid;
 
-public class MessageChooseBattle implements Message{
+import java.io.Serializable;
 
-    int xPos;
-    int yPos;
-    public MessageChooseBattle(int xPos,int yPos){
+public class MessageChooseBattle implements Message, Serializable {
+    private static final long serialVersionUID = 1L;
+
+    private int xPos;
+    private int yPos;
+
+    public MessageChooseBattle(int xPos,int yPos) {
         this.xPos = xPos;
         this.yPos = yPos;
     }
+
     public int getxPos() {
         return xPos;
     }

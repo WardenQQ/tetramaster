@@ -30,6 +30,27 @@ class GameGrid {
   }
 
 
+  def blockCells(): List[(Int, Int)] = {
+    var blocks = List[(Int, Int)]()
+
+    for (i <- 0 until GameGrid.width)
+      for (j <- 0 until GameGrid.height)
+        blocks = (i, j)::blocks
+
+    blocks = blocks.reverse
+
+    blocks = blocks
+      .filter{
+        case (i, j) => grid(i)(j) match {
+          case BlockCell => true
+          case _ => false
+        }
+      }
+
+    blocks
+  }
+
+
   def addCard(card: Card, pos: (Int, Int), team: Int) = {
     var sucess = false
     var playable = playableCells()
