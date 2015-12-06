@@ -7,11 +7,14 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import fr.u_strasbg.tetramaster.shared.Card;
 
 public class ListAdapter extends BaseAdapter {
     private Context mContext;
 
     // Keep all Images in array
+    private Card[] deck;
+    private int team;
 
     public View[] cell =  { null,null,null,null,null
 
@@ -20,58 +23,44 @@ public class ListAdapter extends BaseAdapter {
     // Constructor
     public ListAdapter(Context c){
         mContext = c;
+    }
 
-        setCardsInList();
+    public Card[] getDeck() {
+        return deck;
+    }
 
+    public void setDeck(Card[] deck) {
+        this.deck = deck;
+        notifyDataSetChanged();
+    }
+
+    public void setTeam(int team) {
+        this.team = team;
     }
 
     @Override
     public int getCount() {
-        return 5;
+        if (deck == null) {
+            return 0;
+        }
+        return deck.length;
     }
 
     @Override
     public Object getItem(int position) {
-        return cell[position];
+        return deck[position];
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return deck[position].getId();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        /*CardView cardView = new CardView(mContext);
-        cardView.setMinimumHeight(90);
-        cardView.setMinimumWidth(90);
-
-        //CardView.setImageResource(cell[position]);
-        return cardView;*/
-
-        View view = cell[position];
-        view.setMinimumWidth(90);
-        view.setMinimumHeight(90);
-        return view;
-    }
-
-    public void setCardsInList()
-    {
-        boolean[] vect = new boolean[8];
-        vect[0]=true;
-        vect[1]=false;
-        vect[2]=true;
-        vect[3]=false;
-        vect[4]=true;
-        vect[5]=false;
-        vect[6]=true;
-        vect[7]=false;
-        fr.u_strasbg.tetramaster.shared.Card myCard=new fr.u_strasbg.tetramaster.shared.Card(vect,1,1,1,"COUCOU");
-
-        cell[0]=new CardView(mContext,myCard,1,true);
-        cell[1]=new CardView(mContext,myCard,1,true);
-        cell[2]=new CardView(mContext,myCard,1,true);
-        cell[3]=new CardView(mContext,myCard,1,true);
-        cell[4]=new CardView(mContext,myCard,1,true);
+        CardView card = new CardView(mContext, deck[position], team, false);
+        card.setMinimumWidth(90);
+        card.setMinimumHeight(90);
+        return card;
     }
 }

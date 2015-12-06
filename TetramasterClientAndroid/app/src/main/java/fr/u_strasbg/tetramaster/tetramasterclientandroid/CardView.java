@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.view.View;
+import fr.u_strasbg.tetramaster.shared.Card;
 
 /**
  * Created by Ricardo on 03/12/2015.
@@ -16,7 +17,7 @@ public class CardView extends View {
     public fr.u_strasbg.tetramaster.shared.Card myCard;
     public int joueur;
     public boolean clickable;
-    public CardView(Context context, fr.u_strasbg.tetramaster.shared.Card card, int joueur, boolean clickable)
+    public CardView(Context context, Card card, int joueur, boolean clickable)
     {
         super(context);
         myCard=card;
@@ -31,11 +32,11 @@ public class CardView extends View {
         int y=90;
         Paint paintCard = new Paint();
         paintCard.setStyle(Paint.Style.FILL);
-        if(this.joueur==1)
+        if(this.joueur==0)
         {
-            paintCard.setColor(Color.GREEN);
+            paintCard.setColor(Color.BLUE);
         }
-        else if(this.joueur==2)
+        else if(this.joueur==1)
         {
             paintCard.setColor(Color.RED);
         }

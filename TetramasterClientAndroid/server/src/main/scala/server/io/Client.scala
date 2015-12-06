@@ -1,5 +1,6 @@
 package server.io
 
+import fr.u_strasbg.tetramaster.shared.Message
 import java.io._
 import java.net.Socket
 
@@ -9,16 +10,17 @@ import java.net.Socket
  */
 class Client(socket: Socket)
 {
+  val in = new ObjectInputStream(new DataInputStream(socket.getInputStream()))
+  val out = new ObjectOutputStream(new DataOutputStream(socket.getOutputStream()))
+
   def receiveMessage(): Message =
   {
-    val in =  new ObjectInputStream(new DataInputStream(socket.getInputStream()))
     val message = in.readObject().asInstanceOf[Message]
     return message
   }
 
   def sendMessage(message: Message)
   {
-    val out = new ObjectOutputStream(new DataOutputStream(socket.getOutputStream()))
     out.writeObject(message)
   }
 }

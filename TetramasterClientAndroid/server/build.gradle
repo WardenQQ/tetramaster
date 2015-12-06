@@ -9,4 +9,6 @@ repositories {
 
 dependencies {
     compile 'org.scala-lang:scala-library:2.11.7'
+
+    compile project(':shared')
 }

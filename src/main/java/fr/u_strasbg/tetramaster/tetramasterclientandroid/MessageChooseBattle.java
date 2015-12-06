@@ -3,8 +3,11 @@ package fr.u_strasbg.tetramaster.tetramasterclientandroid;
 import java.io.Serializable;
 
 public class MessageChooseBattle implements Message, Serializable {
+<<<<<<< Updated upstream:src/main/java/fr/u_strasbg/tetramaster/tetramasterclientandroid/MessageChooseBattle.java
     private static final long serialVersionUID = 1L;
 
+=======
+>>>>>>> Stashed changes:TetramasterClientAndroid/app/src/main/java/fr/u_strasbg/tetramaster/tetramasterclientandroid/MessageChooseBattle.java
     private int xPos;
     private int yPos;
 

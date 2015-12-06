@@ -3,8 +3,11 @@ package fr.u_strasbg.tetramaster.tetramasterclientandroid;
 import java.io.Serializable;
 
 public class MessagePlaceCard implements Message, Serializable {
+<<<<<<< Updated upstream:src/main/java/fr/u_strasbg/tetramaster/tetramasterclientandroid/MessagePlaceCard.java
     private static final long serialVersionUID = 1L;
 
+=======
+>>>>>>> Stashed changes:TetramasterClientAndroid/app/src/main/java/fr/u_strasbg/tetramaster/tetramasterclientandroid/MessagePlaceCard.java
     int xPos;
     int yPos;
     int idMap;

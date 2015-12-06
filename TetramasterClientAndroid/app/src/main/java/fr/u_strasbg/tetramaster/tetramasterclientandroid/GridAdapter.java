@@ -7,6 +7,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import fr.u_strasbg.tetramaster.shared.Card;
 
 import java.util.Random;
 import java.util.Vector;
@@ -17,28 +18,26 @@ public class GridAdapter extends BaseAdapter {
 
     // Keep all Images in array
 
-    public View[] cell =  { null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
-
-    };
+    public View[] cell =  new View[16];
 
     // Constructor
     public GridAdapter(Context c){
         mContext = c;
-        for (int i=0;i<8;i++)
+        for (int i=0;i<16;i++)
         {
-            cell[i]=new EmptyView(mContext,true);
+            cell[i]=new EmptyView(mContext, false);
         }
-        for (int i=8;i<16;i++)
-        {
-            cell[i]=new EmptyView(mContext,false);
-        }
-        setObstacles();
-        getPosClickableFromServ();
-        for(int j=0;j<positions.size();j++)
-        {
+    }
 
+    public void addBlockCells(int[][] blockCells){
+        for (int[] pos:
+                blockCells) {
+            cell[pos[1] * 4 + pos[0]] = new BlockView(mContext);
         }
+    }
 
+    public void placeCardCell(Card card, int x, int y, int team) {
+        cell[y * 4 + x] = new CardView(mContext, card, team, false);
     }
 
     @Override
@@ -58,39 +57,10 @@ public class GridAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        /*CardView cardView = new CardView(mContext);
-        cardView.setMinimumHeight(90);
-        cardView.setMinimumWidth(90);
-
-        //CardView.setImageResource(cell[position]);
-        return cardView;*/
-
         View view = cell[position];
         view.setMinimumWidth(90);
         view.setMinimumHeight(90);
         return view;
-    }
-
-    public void setObstacles()
-    {
-        for(int i=0;i<4;i++)
-        {
-            Random rand = new Random();
-            int nombreAleatoire = rand.nextInt(16);
-            cell[nombreAleatoire] = new BlockView(mContext);
-        }
-        boolean[] vect = new boolean[8];
-        vect[0]=true;
-        vect[1]=true;
-        vect[2]=true;
-        vect[3]=true;
-        vect[4]=true;
-        vect[5]=true;
-        vect[6]=true;
-        vect[7]=true;
-        fr.u_strasbg.tetramaster.shared.Card myCard=new fr.u_strasbg.tetramaster.shared.Card(vect,1,1,1,"COUCOU");
-        cell[12]=new CardView(mContext,myCard,1,true);
-        cell[13]=new CardView(mContext,myCard,2,false);
     }
 
     public Vector<Integer> getPosClickableFromServ()

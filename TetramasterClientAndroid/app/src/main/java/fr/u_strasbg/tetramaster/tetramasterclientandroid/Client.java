@@ -23,43 +23,42 @@ public class Client extends AsyncTask<Void, Void, Void> {
     Client(String addr, int port, TextView textResponse) {
         dstAddress = addr;
         dstPort = port;
-        this.textResponse = textResponse;
     }
 
     @Override
     protected Void doInBackground(Void... arg0) {
+//
+//        Socket socket = null;
+//
+//        try {
+//            socket = new Socket(dstAddress, dstPort);
+//
+//            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+//            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+//
+//            fr.u_strasbg.tetramaster.shared.MessageSetDeckList msgSetDeckList = (MessageSetDeckList)in.readObject();
+//            fr.u_strasbg.tetramaster.shared.Card[] deck = msgSetDeckList.deck;
+//
+//        } catch (UnknownHostException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//            response = "UnknownHostException: " + e.toString();
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//            response = "IOException: " + e.toString();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (socket != null) {
+//                try {
+//                    socket.close();
+//                } catch (IOException e) {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//            }
 
-        Socket socket = null;
-
-        try {
-            socket = new Socket(dstAddress, dstPort);
-
-            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-
-            fr.u_strasbg.tetramaster.shared.MessageSetDeckList msgSetDeckList = (MessageSetDeckList)in.readObject();
-            fr.u_strasbg.tetramaster.shared.Card[] deck = msgSetDeckList.deck;
-
-        } catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            response = "UnknownHostException: " + e.toString();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            response = "IOException: " + e.toString();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            if (socket != null) {
-                try {
-                    socket.close();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-        }
         return null;
     }
 

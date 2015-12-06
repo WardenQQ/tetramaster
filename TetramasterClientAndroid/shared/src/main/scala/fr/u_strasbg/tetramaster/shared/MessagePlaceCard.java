@@ -5,31 +5,20 @@ import java.io.Serializable;
 public class MessagePlaceCard implements Message, Serializable {
     private static final long serialVersionUID = 1L;
 
-    int xPos;
-    int yPos;
+    public int x;
+    public int y;
     int idMap;
+    public int team;
+    public Card card;
+
+    public MessagePlaceCard() {
+    }
 
     public MessagePlaceCard(int xPos,int yPos,int idMap)
     {
-        this.xPos = xPos;
-        this.yPos = yPos;
+        x = xPos;
+        y = yPos;
         this.idMap = idMap;
-    }
-
-    public int getxPos() {
-        return xPos;
-    }
-
-    public void setxPos(int xPos) {
-        this.xPos = xPos;
-    }
-
-    public int getyPos() {
-        return yPos;
-    }
-
-    public void setyPos(int yPos) {
-        this.yPos = yPos;
     }
 
     public int getIdMap() {
