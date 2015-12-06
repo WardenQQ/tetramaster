@@ -1,26 +1,22 @@
 package fr.u_strasbg.tetramaster.tetramasterclientandroid;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
-import android.util.AttributeSet;
 import android.view.View;
-
-import java.util.Vector;
 
 /**
  * Created by Ricardo on 03/12/2015.
  */
 public class CardView extends View {
 
-    public Card myCard;
+    public fr.u_strasbg.tetramaster.shared.Card myCard;
     public int joueur;
     public boolean clickable;
-    public CardView(Context context,Card card,int joueur,boolean clickable)
+    public CardView(Context context, fr.u_strasbg.tetramaster.shared.Card card, int joueur, boolean clickable)
     {
         super(context);
         myCard=card;

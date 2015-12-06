@@ -1,19 +1,20 @@
-package fr.u_strasbg.tetramaster.tetramasterclientandroid;
+package fr.u_strasbg.tetramaster.shared;
 
 import java.io.Serializable;
 
-public class MessagePlaceCard implements Message, Serializable {
+public class MessageChooseBattle implements Message, Serializable {
     private static final long serialVersionUID = 1L;
 
-    int xPos;
-    int yPos;
-    int idMap;
+    private int xPos;
+    private int yPos;
 
-    public MessagePlaceCard(int xPos,int yPos,int idMap)
-    {
+    public MessageChooseBattle() {
+
+    }
+
+    public MessageChooseBattle(int xPos,int yPos) {
         this.xPos = xPos;
         this.yPos = yPos;
-        this.idMap = idMap;
     }
 
     public int getxPos() {
@@ -32,11 +33,4 @@ public class MessagePlaceCard implements Message, Serializable {
         this.yPos = yPos;
     }
 
-    public int getIdMap() {
-        return idMap;
-    }
-
-    public void setIdMap(int idMap) {
-        this.idMap = idMap;
-    }
 }
