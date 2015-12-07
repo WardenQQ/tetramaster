@@ -1,5 +1,7 @@
 apply plugin: 'scala'
 
+sourceCompatibility = 1.7
+
 repositories {
     mavenCentral()
 }
