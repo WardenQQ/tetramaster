@@ -10,6 +10,8 @@ android {
     }
 
     defaultConfig {
+        // Enabling multidex support.
+        multiDexEnabled true
         applicationId "fr.u_strasbg.tetramaster.tetramasterclientandroid"
         minSdkVersion 22
         targetSdkVersion 23
