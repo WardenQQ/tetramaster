@@ -42,11 +42,11 @@ public class MainActivity extends AppCompatActivity {
                         clt.execute();
             }
         });
-        btn_geoloc.setOnClickListener(new View.OnClickListener()
-        {
+        btn_geoloc.setOnClickListener(new OnClickListener(){
             @Override
-            public void onClick(View view) {
+            public void onClick(View arg0){
                 startActivity(new Intent(getApplicationContext(), Geolocalisation.class));
+
             }
         });
     }
