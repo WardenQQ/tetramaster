@@ -28,8 +28,8 @@ public class CardView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        int x=90;
-        int y=90;
+        int x=100;
+        int y=100;
         Paint paintCard = new Paint();
         paintCard.setStyle(Paint.Style.FILL);
         if(this.joueur==0)
@@ -166,6 +166,13 @@ public class CardView extends View {
             path.close();
             canvas.drawPath(path,paintArray);
         }
+        int def = myCard.getMagicalDef();
+        int atq = myCard.getAttack();
+        Paint paintText = new Paint();
+        paintText.setColor(Color.YELLOW);
+        paintText.setTextSize(16);
+        canvas.drawText(String.valueOf(atq),70,y/2,paintText);
+        canvas.drawText(String.valueOf(def),30,y/2,paintText);
     }
 
 }
