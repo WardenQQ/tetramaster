@@ -58,8 +58,8 @@ public class GridAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = cell[position];
-        view.setMinimumWidth(90);
-        view.setMinimumHeight(90);
+        view.setMinimumWidth(100);
+        view.setMinimumHeight(100);
         return view;
     }
 

@@ -15,7 +15,6 @@ public class ListAdapter extends BaseAdapter {
     // Keep all Images in array
     private Card[] deck;
     private int team;
-
     public View[] cell =  { null,null,null,null,null
 
     };
@@ -59,8 +58,8 @@ public class ListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         CardView card = new CardView(mContext, deck[position], team, false);
-        card.setMinimumWidth(90);
-        card.setMinimumHeight(90);
+        card.setMinimumWidth(100);
+        card.setMinimumHeight(100);
         return card;
     }
 }

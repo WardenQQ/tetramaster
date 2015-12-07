@@ -18,8 +18,8 @@ public class BlockView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        int x=90;
-        int y=90;
+        int x=100;
+        int y=100;
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.BLACK);
