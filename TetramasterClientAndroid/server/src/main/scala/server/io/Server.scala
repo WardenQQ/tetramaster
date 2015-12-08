@@ -24,6 +24,7 @@ class Server()
   // Ajouter les clients au matchmaking
   def sendClientToMatchmaking(client: Client): Unit =
   {
+    println("Connexion du client: " + client.socket.getLocalAddress)
     matchmaker.enqueue(client)
   }
 
