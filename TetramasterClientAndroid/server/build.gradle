@@ -7,8 +7,15 @@ repositories {
     mavenCentral()
 }
 
+jar { 
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    manifest {
+        attributes("Main-Class": 'server.Main')
+    }
+}
+
 dependencies {
-    compile 'org.scala-lang:scala-library:2.11.7'
+    compile 'org.scala-lang:scala-library:2.9.2'
 
     compile project(':shared')
 }
