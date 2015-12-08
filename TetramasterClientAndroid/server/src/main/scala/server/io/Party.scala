@@ -72,9 +72,9 @@ class Party(server: Server, client1: Client, client2: Client)
       msg2.team = team
       msg2.card = new fr.u_strasbg.tetramaster.shared.Card(
         card.arrows,
-        card.power,
-        card.physicalDefense,
         card.magicalDefense,
+        card.physicalDefense,
+        card.power,
         card.powerType)
       client1.sendMessage(msg2)
       client2.sendMessage(msg2)

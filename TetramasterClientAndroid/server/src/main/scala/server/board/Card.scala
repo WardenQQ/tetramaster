@@ -3,9 +3,9 @@ package server.board
 import scala.util.Random
 
 class Card(val arrows: Array[Boolean],
-           val power: Int,
-           val physicalDefense: Int,
            val magicalDefense: Int,
+           val physicalDefense: Int,
+           val power: Int,
            val powerType: String) {
 
   def lowestDefense: Int = {
