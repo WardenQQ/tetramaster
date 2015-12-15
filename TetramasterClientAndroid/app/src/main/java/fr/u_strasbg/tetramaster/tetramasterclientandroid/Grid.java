@@ -39,7 +39,7 @@ public class Grid extends AppCompatActivity {
         lAdapter=new ListAdapter(this);
         list.setAdapter(lAdapter);
 
-        GameLoop gameLoop = new GameLoop("192.168.1.14", 1024);
+        GameLoop gameLoop = new GameLoop("130.79.206.217", 1024);
         gameLoop.execute();
     }
 
@@ -207,8 +207,6 @@ public class Grid extends AppCompatActivity {
                     gAdapter.notifyDataSetChanged();
                     break;
             }
-
-
         }
     }
 }
