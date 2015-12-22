@@ -1,7 +1,9 @@
 package fr.u_strasbg.tetramaster.tetramasterclientandroid;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.*;
@@ -22,6 +24,7 @@ public class Grid extends AppCompatActivity {
 
     GridAdapter gAdapter;
     ListAdapter lAdapter;
+    AlertDialog dialog;
 
     int x;
     int y;
@@ -38,7 +41,6 @@ public class Grid extends AppCompatActivity {
         grid.setAdapter(gAdapter);
         lAdapter=new ListAdapter(this);
         list.setAdapter(lAdapter);
-
         GameLoop gameLoop = new GameLoop("130.79.206.217", 1024);
         gameLoop.execute();
     }
@@ -122,7 +124,9 @@ public class Grid extends AppCompatActivity {
                             grid.setClickable(false);
                             list.setClickable(false);
                         }
+
                     }
+
 
                 }
             });
@@ -131,12 +135,16 @@ public class Grid extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
             Socket socket = null;
-
             try {
                 socket = new Socket(dstAddress, dstPort);
 
                 out = new ObjectOutputStream(socket.getOutputStream());
                 in = new ObjectInputStream(socket.getInputStream());
+               /* AlertDialog.Builder build = new AlertDialog.Builder(getApplicationContext());
+                build.setMessage("En attente d'un autre joueur");
+                dialog = build.create();
+                dialog.getWindow().setLayout(400,600);
+                dialog.show();*/
 
                 while (true) {
                     Message msg = (Message)in.readObject();
@@ -146,6 +154,9 @@ public class Grid extends AppCompatActivity {
                         deck = unpack.deck;
                         team = unpack.team;
                         publishProgress(stateSetDeck);
+                        /*if(dialog.isShowing()) {
+                            dialog.dismiss();
+                        }*/
                     } else if(msg instanceof MessageSendBlockCells) {
                         MessageSendBlockCells unpack = (MessageSendBlockCells)msg;
                         cellPositions = unpack.blockCells;
@@ -207,8 +218,6 @@ public class Grid extends AppCompatActivity {
                     gAdapter.notifyDataSetChanged();
                     break;
             }
-
-
         }
     }
 }
