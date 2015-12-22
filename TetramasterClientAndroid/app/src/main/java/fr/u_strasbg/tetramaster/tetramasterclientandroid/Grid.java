@@ -140,11 +140,11 @@ public class Grid extends AppCompatActivity {
 
                 out = new ObjectOutputStream(socket.getOutputStream());
                 in = new ObjectInputStream(socket.getInputStream());
-                AlertDialog.Builder build = new AlertDialog.Builder(getApplicationContext());
+               /* AlertDialog.Builder build = new AlertDialog.Builder(getApplicationContext());
                 build.setMessage("En attente d'un autre joueur");
                 dialog = build.create();
                 dialog.getWindow().setLayout(400,600);
-                dialog.show();
+                dialog.show();*/
 
                 while (true) {
                     Message msg = (Message)in.readObject();
@@ -154,9 +154,9 @@ public class Grid extends AppCompatActivity {
                         deck = unpack.deck;
                         team = unpack.team;
                         publishProgress(stateSetDeck);
-                        if(dialog.isShowing()) {
+                        /*if(dialog.isShowing()) {
                             dialog.dismiss();
-                        }
+                        }*/
                     } else if(msg instanceof MessageSendBlockCells) {
                         MessageSendBlockCells unpack = (MessageSendBlockCells)msg;
                         cellPositions = unpack.blockCells;
