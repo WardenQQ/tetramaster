@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">TetramasterClientAndroid</string>
     <string name="title_activity_geolocalisation">Geolocalisation Carte</string>
+    <string name="facebook_app_id">938470256231378</string>
 </resources>
