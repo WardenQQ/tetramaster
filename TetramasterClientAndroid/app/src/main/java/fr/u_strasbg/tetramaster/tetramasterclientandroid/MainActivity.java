@@ -83,7 +83,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Toast.makeText(getApplicationContext(), "LOG VIA FB OK", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), loginResult.getAccessToken().getUserId()+"LOG VIA FB OK", Toast.LENGTH_SHORT).show();
+                checkFacebookLoginDb(loginResult);
                 startActivity(new Intent(getApplicationContext(), Connected.class));
             }
 
@@ -108,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             }
         });
     }
+
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         // An unresolvable error has occurred and Google APIs (including Sign-In) will not
@@ -120,12 +122,35 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             GoogleSignInAccount acct = result.getSignInAccount();
+            checkGoogleLoginDb(acct);
             startActivity(new Intent(getApplicationContext(), Connected.class));
-            Toast.makeText(getApplicationContext(), "LOG VIA GOOGLLLLEEEEEEE", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"LOG VIA GOOGLLLLEEEEEEE", Toast.LENGTH_SHORT).show();
         }
         else {
             super.onActivityResult(requestCode, resultCode, data);
             callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private void checkGoogleLoginDb(GoogleSignInAccount acct) {
+        int count;
+        //Query database -> select count(*) from users where idGoogle=acct.getSignInAccount();
+        //on stocke le resultat dans count, mais en attendant on set count a 0
+        count=0;
+        if(count==0) {
+            //ajout dans la db d'un nouveau user -> insert into users values (null,...,acct.getSignInAccount(),...);
+            //ouverture d'une nouvelle fenetre selection pseudo, etc ...
+        }
+    }
+
+    private void checkFacebookLoginDb(LoginResult loginResult) {
+        int count;
+        //Query database -> select count(*) from users where idGoogle=acct.getSignInAccount();
+        //on stocke le resultat dans count, mais en attendant on set count a 0
+        count=0;
+        if(count==0) {
+            //ajout dans la db d'un nouveau user -> insert into users values (null,...,acct.getSignInAccount(),...);
+            //ouverture d'une nouvelle fenetre selection pseudo, etc ...
         }
     }
 
