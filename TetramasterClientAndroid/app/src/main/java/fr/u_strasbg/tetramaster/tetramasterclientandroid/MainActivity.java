@@ -31,6 +31,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.fitness.data.Session;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     int port;*/
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
+    String email;
     CallbackManager callbackManager;
     Button btn_connect;
     LoginButton loginButton;
@@ -85,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             public void onSuccess(LoginResult loginResult) {
                 Toast.makeText(getApplicationContext(), loginResult.getAccessToken().getUserId()+"LOG VIA FB OK", Toast.LENGTH_SHORT).show();
                 checkFacebookLoginDb(loginResult);
-                startActivity(new Intent(getApplicationContext(), Connected.class));
             }
 
             @Override
@@ -123,7 +125,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             GoogleSignInAccount acct = result.getSignInAccount();
             checkGoogleLoginDb(acct);
-            startActivity(new Intent(getApplicationContext(), Connected.class));
             Toast.makeText(getApplicationContext(),"LOG VIA GOOGLLLLEEEEEEE", Toast.LENGTH_SHORT).show();
         }
         else {
@@ -138,8 +139,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         //on stocke le resultat dans count, mais en attendant on set count a 0
         count=0;
         if(count==0) {
-            //ajout dans la db d'un nouveau user -> insert into users values (null,...,acct.getSignInAccount(),...);
-            //ouverture d'une nouvelle fenetre selection pseudo, etc ...
+            Bundle parameters = new Bundle();
+            parameters.putString("name",acct.getDisplayName());
+            parameters.putString("id",acct.getId());
+            Intent goToPseudoChoice = new Intent(this,SelectPseudo.class);
+            goToPseudoChoice.putExtras(parameters);
+            startActivity(goToPseudoChoice);
+        }
+        else{
+            startActivity(new Intent(getApplicationContext(), Connected.class));
         }
     }
 
@@ -149,8 +157,46 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         //on stocke le resultat dans count, mais en attendant on set count a 0
         count=0;
         if(count==0) {
-            //ajout dans la db d'un nouveau user -> insert into users values (null,...,acct.getSignInAccount(),...);
-            //ouverture d'une nouvelle fenetre selection pseudo, etc ...
+            Bundle parameters = new Bundle();
+
+            GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),new GraphRequest.GraphJSONObjectCallback() {
+                @Override
+                public void onCompleted(JSONObject object,GraphResponse response) {
+                    try {
+                        String[] splited ;
+                        JSONObject obj =  object.getJSONObject("picture").getJSONObject("data");
+
+                        if (object.has("email"))
+                        {
+                            email =  object.getString("email");
+                        }
+                        else
+                        {
+                            email = "lolilol";
+                        }
+
+
+
+                    } catch (JSONException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+
+
+                }
+            });
+            parameters.putString("id",loginResult.getAccessToken().getUserId());
+            Bundle json = new Bundle();
+            json.putString("fields", "id,name,link,birthday,picture,email,gender");
+            request.setParameters(json);
+            request.executeAsync();
+            parameters.putString("name",request.getParameters().getString("email"));
+            Intent goToPseudoChoice = new Intent(this,SelectPseudo.class);
+            goToPseudoChoice.putExtras(parameters);
+            startActivity(goToPseudoChoice);
+        }
+        else{
+            startActivity(new Intent(getApplicationContext(), Connected.class));
         }
     }
 
