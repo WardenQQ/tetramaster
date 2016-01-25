@@ -22,6 +22,7 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.FacebookSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     int port;*/
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
-    String email;
+    String fbName;
     CallbackManager callbackManager;
     Button btn_connect;
     LoginButton loginButton;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
+
         setContentView(R.layout.activity_main);
         /*addr = "192.168.0.134";//"130.79.206.217";
         port = 1024;*/
@@ -81,12 +83,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .enableAutoManage(this /* FragmentActivity */, null /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+        if(isAlreadyConnected()){
+            //faire le saut vers connected.class ici et savoir quel moyen de connection utilise
+        }
         callbackManager = CallbackManager.Factory.create();
         loginButton = (LoginButton) findViewById(R.id.login_button_fb);
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Toast.makeText(getApplicationContext(), loginResult.getAccessToken().getUserId()+"LOG VIA FB OK", Toast.LENGTH_SHORT).show();
+
                 checkFacebookLoginDb(loginResult);
             }
 
@@ -158,39 +163,27 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         count=0;
         if(count==0) {
             Bundle parameters = new Bundle();
-
+            Toast.makeText(getApplicationContext(), loginResult.getAccessToken().getUserId()+"LOG VIA FB OK", Toast.LENGTH_SHORT).show();
             GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),new GraphRequest.GraphJSONObjectCallback() {
                 @Override
                 public void onCompleted(JSONObject object,GraphResponse response) {
                     try {
-                        String[] splited ;
-                        JSONObject obj =  object.getJSONObject("picture").getJSONObject("data");
-
-                        if (object.has("email"))
-                        {
-                            email =  object.getString("email");
-                        }
-                        else
-                        {
-                            email = "lolilol";
-                        }
-
-
-
+                            fbName =  object.getString("name");
                     } catch (JSONException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
-
-
                 }
             });
-            parameters.putString("id",loginResult.getAccessToken().getUserId());
             Bundle json = new Bundle();
-            json.putString("fields", "id,name,link,birthday,picture,email,gender");
+            json.putString("name",fbName);
             request.setParameters(json);
             request.executeAsync();
-            parameters.putString("name",request.getParameters().getString("email"));
+            String test;
+            test=json.getString("name");
+            Toast.makeText(getApplicationContext(), test+" LOG VIA FB OK", Toast.LENGTH_SHORT).show();
+            parameters.putString("id",loginResult.getAccessToken().getUserId());
+            parameters.putString("name",test);
             Intent goToPseudoChoice = new Intent(this,SelectPseudo.class);
             goToPseudoChoice.putExtras(parameters);
             startActivity(goToPseudoChoice);
@@ -198,6 +191,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         else{
             startActivity(new Intent(getApplicationContext(), Connected.class));
         }
+    }
+
+    public boolean isAlreadyConnected(){
+        boolean response= false;
+        if(FacebookSdk.getClientToken()!=null || mGoogleApiClient.isConnected()){
+            response=true;
+        }
+        return response;
     }
 
     private void signIn(){
