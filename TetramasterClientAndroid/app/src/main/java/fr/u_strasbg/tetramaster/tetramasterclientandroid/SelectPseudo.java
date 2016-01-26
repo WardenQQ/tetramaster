@@ -3,16 +3,21 @@ package fr.u_strasbg.tetramaster.tetramasterclientandroid;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 public class SelectPseudo extends AppCompatActivity {
 
     EditText chosenPseudo;
     Button btn_send;
+    ImageView refused;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,15 +28,56 @@ public class SelectPseudo extends AppCompatActivity {
         String id=parametersReceived.getString("id");
         btn_send = (Button) findViewById(R.id.buttonSend);
         chosenPseudo = (EditText) findViewById(R.id.chosenPseudo);
-        if(name!=""){
-            chosenPseudo.setText(name);
+        refused = (ImageView) findViewById(R.id.imageViewRefused);
+        //this.addContentView(refused,null);
+        if(name!=""&&name!=null){
+            chosenPseudo.setText(name.replaceAll(" ",""));
         }
+        if(chosenPseudo.length()<6){
+            Toast.makeText(getApplicationContext(), "Votre pseudo doit au moins comporter 6 caractères", Toast.LENGTH_SHORT).show();
+            refused.setImageResource(R.drawable.refused);
+        }
+        else {
+            if(isAlreadyTaken(chosenPseudo.getText().toString())){
+                Toast.makeText(getApplicationContext(), "Ce pseudo est deja utilisé", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                refused.setImageResource(R.drawable.validated);
+            }
+        }
+        chosenPseudo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(chosenPseudo.length()<6){
+                    Toast.makeText(getApplicationContext(), "Votre pseudo doit au moins comporter 6 caractères", Toast.LENGTH_SHORT).show();
+                    refused.setImageResource(R.drawable.refused);
+                }
+                else {
+                    if(isAlreadyTaken(chosenPseudo.getText().toString())){
+                        Toast.makeText(getApplicationContext(), "Ce pseudo est deja utilisé", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        refused.setImageResource(R.drawable.validated);
+                    }
+
+                }
+            }
+        });
         btn_send.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View arg0) {
                 //send infos to database
                 //start connected activity
-
                 startActivity(new Intent(getApplicationContext(), Connected.class));
             }
         });
@@ -58,4 +104,15 @@ public class SelectPseudo extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public boolean isAlreadyTaken(String pseudo){
+        boolean taken=false;
+        int existsPseudo=0;
+        //faire la requete ici pour savoir si un pseudo est deja utilise
+        if(existsPseudo==1){
+            taken=true;
+        }
+        return taken;
+    }
+
 }

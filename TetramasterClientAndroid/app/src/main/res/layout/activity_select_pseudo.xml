@@ -25,5 +25,11 @@
             android:text="Select a nickname"
             android:id="@+id/textView" android:layout_above="@+id/chosenPseudo" android:layout_centerHorizontal="true"
             android:layout_marginBottom="48dp"/>
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageViewRefused"
+            android:layout_alignTop="@+id/buttonSend"
+            android:layout_alignBottom="@+id/buttonSend"/>
 
 </RelativeLayout>

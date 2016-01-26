@@ -7,9 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import com.facebook.FacebookActivity;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookSdk;
+import com.facebook.*;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.FacebookSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInApi;
@@ -58,9 +56,9 @@ public class Connected extends AppCompatActivity {
         btn_disconnect.setOnClickListener(new OnClickListener(){
             @Override
             public void onClick(View arg0){
-                FacebookSdk.clearLoggingBehaviors();
-
+                //FacebookSdk.clearLoggingBehaviors();
                 //Auth.GoogleSignInApi.signOut()
+                AccessToken.setCurrentAccessToken(null);
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         });

@@ -22,16 +22,15 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.FacebookSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.auth.api.signin.*;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.fitness.data.Session;
+import com.google.android.gms.search.GoogleNowAuthState;
+import com.google.android.gms.search.SearchAuthApi;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,7 +41,7 @@ import java.security.Signature;
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
     /*String addr;
     int port;*/
-    private static final String TAG = "SignInActivity";
+    private static final String TAG = "MyDebug";
     private static final int RC_SIGN_IN = 9001;
     String fbName;
     CallbackManager callbackManager;
@@ -83,9 +82,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .enableAutoManage(this /* FragmentActivity */, null /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-        if(isAlreadyConnected()){
-            //faire le saut vers connected.class ici et savoir quel moyen de connection utilise
-        }
+
         callbackManager = CallbackManager.Factory.create();
         loginButton = (LoginButton) findViewById(R.id.login_button_fb);
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -115,6 +112,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 startActivity(new Intent(getApplicationContext(), Connected.class));
             }
         });
+        Log.d(TAG, "token fb :" + isAlreadyConnected("Facebook"));
+        if(isAlreadyConnected("Facebook")){
+            startActivity(new Intent(getApplicationContext(), Connected.class));
+        }
+        else if(isAlreadyConnected("Google")){
+            startActivity(new Intent(getApplicationContext(), Connected.class));
+        }
     }
 
     @Override
@@ -164,26 +168,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         if(count==0) {
             Bundle parameters = new Bundle();
             Toast.makeText(getApplicationContext(), loginResult.getAccessToken().getUserId()+"LOG VIA FB OK", Toast.LENGTH_SHORT).show();
-            GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),new GraphRequest.GraphJSONObjectCallback() {
-                @Override
-                public void onCompleted(JSONObject object,GraphResponse response) {
-                    try {
-                            fbName =  object.getString("name");
-                    } catch (JSONException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-            });
-            Bundle json = new Bundle();
-            json.putString("name",fbName);
-            request.setParameters(json);
-            request.executeAsync();
-            String test;
-            test=json.getString("name");
-            Toast.makeText(getApplicationContext(), test+" LOG VIA FB OK", Toast.LENGTH_SHORT).show();
+            Profile currentProfile = Profile.getCurrentProfile();
             parameters.putString("id",loginResult.getAccessToken().getUserId());
-            parameters.putString("name",test);
+            Log.d(TAG,"Name : "+currentProfile.getName());
+            parameters.putString("name",currentProfile.getName());
             Intent goToPseudoChoice = new Intent(this,SelectPseudo.class);
             goToPseudoChoice.putExtras(parameters);
             startActivity(goToPseudoChoice);
@@ -193,10 +181,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
     }
 
-    public boolean isAlreadyConnected(){
+    public boolean isAlreadyConnected(String typeConnection){
         boolean response= false;
-        if(FacebookSdk.getClientToken()!=null || mGoogleApiClient.isConnected()){
-            response=true;
+        if(typeConnection=="Facebook"){
+            AccessToken token = AccessToken.getCurrentAccessToken();
+            if(token!=null){
+                response=true;
+            }
+        }
+        else if(typeConnection=="Google"){
+            if (mGoogleApiClient.isConnected()){
+                response=true;
+            }
         }
         return response;
     }
