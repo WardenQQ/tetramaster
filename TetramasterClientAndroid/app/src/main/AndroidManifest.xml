@@ -65,6 +65,7 @@
             android:name=".SelectPseudo"
             android:label="@string/title_activity_select_pseudo" >
         </activity>
+        <activity android:name=".MyCollection" />
     </application>
 
 </manifest>

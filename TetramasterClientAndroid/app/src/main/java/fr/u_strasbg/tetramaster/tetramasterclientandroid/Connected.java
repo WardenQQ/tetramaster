@@ -17,7 +17,7 @@ public class Connected extends AppCompatActivity {
     String addr;
     int port;
 
-    Button btn_envois, btn_grid, btn_geoloc, btn_disconnect;
+    Button btn_envois, btn_grid, btn_geoloc, btn_disconnect, btn_mycollection;
     EditText txt_connect;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -30,6 +30,7 @@ public class Connected extends AppCompatActivity {
         btn_geoloc     = (Button) findViewById(R.id.btn_geoloc);
         txt_connect    = (EditText) findViewById(R.id.txt_connect);
         btn_grid       = (Button) findViewById(R.id.buttonGrid);
+        btn_mycollection = (Button) findViewById(R.id.btn_collection);
 
         btn_grid.setOnClickListener(new View.OnClickListener()
         {
@@ -60,6 +61,12 @@ public class Connected extends AppCompatActivity {
                 //Auth.GoogleSignInApi.signOut()
                 AccessToken.setCurrentAccessToken(null);
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            }
+        });
+        btn_mycollection.setOnClickListener(new OnClickListener(){
+            @Override
+            public void onClick(View arg0){
+                startActivity(new Intent(getApplicationContext(), MyCollection.class));
             }
         });
     }

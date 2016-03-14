@@ -1,24 +1,14 @@
 package fr.u_strasbg.tetramaster.tetramasterclientandroid;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageInstaller;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-
 import android.widget.Toast;
 import com.facebook.*;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -26,24 +16,11 @@ import com.google.android.gms.auth.api.signin.*;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.OptionalPendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.fitness.data.Session;
-import com.google.android.gms.search.GoogleNowAuthState;
-import com.google.android.gms.search.SearchAuthApi;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.Signature;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
-    /*String addr;
-    int port;*/
     private static final String TAG = "MyDebug";
     private static final int RC_SIGN_IN = 9001;
-    String fbName;
     CallbackManager callbackManager;
     Button btn_connect;
     LoginButton loginButton;

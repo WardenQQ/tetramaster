@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.view.View;
+import android.widget.ListView;
 import fr.u_strasbg.tetramaster.shared.Card;
 
 /**

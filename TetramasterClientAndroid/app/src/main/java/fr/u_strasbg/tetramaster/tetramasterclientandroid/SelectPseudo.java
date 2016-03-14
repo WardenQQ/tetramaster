@@ -23,7 +23,6 @@ public class SelectPseudo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_pseudo);
         Bundle parametersReceived = getIntent().getExtras();
-
         String name=parametersReceived.getString("name");
         String id=parametersReceived.getString("id");
         btn_send = (Button) findViewById(R.id.buttonSend);
@@ -33,16 +32,21 @@ public class SelectPseudo extends AppCompatActivity {
         if(name!=""&&name!=null){
             chosenPseudo.setText(name.replaceAll(" ",""));
         }
+        chosenPseudo.setSelection(chosenPseudo.getText().length());
+
         if(chosenPseudo.length()<6){
             Toast.makeText(getApplicationContext(), "Votre pseudo doit au moins comporter 6 caractères", Toast.LENGTH_SHORT).show();
             refused.setImageResource(R.drawable.refused);
+            btn_send.setEnabled(false);
         }
         else {
             if(isAlreadyTaken(chosenPseudo.getText().toString())){
                 Toast.makeText(getApplicationContext(), "Ce pseudo est deja utilisé", Toast.LENGTH_SHORT).show();
+                btn_send.setEnabled(false);
             }
             else{
                 refused.setImageResource(R.drawable.validated);
+                btn_send.setEnabled(true);
             }
         }
         chosenPseudo.addTextChangedListener(new TextWatcher() {
@@ -61,13 +65,16 @@ public class SelectPseudo extends AppCompatActivity {
                 if(chosenPseudo.length()<6){
                     Toast.makeText(getApplicationContext(), "Votre pseudo doit au moins comporter 6 caractères", Toast.LENGTH_SHORT).show();
                     refused.setImageResource(R.drawable.refused);
+                    btn_send.setEnabled(false);
                 }
                 else {
                     if(isAlreadyTaken(chosenPseudo.getText().toString())){
                         Toast.makeText(getApplicationContext(), "Ce pseudo est deja utilisé", Toast.LENGTH_SHORT).show();
+                        btn_send.setEnabled(false);
                     }
                     else{
                         refused.setImageResource(R.drawable.validated);
+                        btn_send.setEnabled(true);
                     }
 
                 }
@@ -114,5 +121,4 @@ public class SelectPseudo extends AppCompatActivity {
         }
         return taken;
     }
-
 }
