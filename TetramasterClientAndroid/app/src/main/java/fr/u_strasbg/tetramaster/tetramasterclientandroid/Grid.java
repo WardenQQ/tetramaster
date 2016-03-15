@@ -1,5 +1,6 @@
 package fr.u_strasbg.tetramaster.tetramasterclientandroid;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -77,7 +78,6 @@ public class Grid extends AppCompatActivity {
         protected void onPreExecute() {
             list.setClickable(false);
             grid.setClickable(false);
-
             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View v,
@@ -85,7 +85,10 @@ public class Grid extends AppCompatActivity {
                     if (list.isClickable()) {
                         chosenId = (int)lAdapter.getItemId(position);
                         choseCardFromDeck = true;
-
+                        ClipData data = ClipData.newPlainText("", "");
+                        View.DragShadowBuilder shadowBuilder= new View.DragShadowBuilder(v);
+                        v.startDrag(data,shadowBuilder,lAdapter.getItem(position),0);
+                        v.setVisibility(View.INVISIBLE);
                         grid.setClickable(true);
                     }
 
