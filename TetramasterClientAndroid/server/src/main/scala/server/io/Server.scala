@@ -22,14 +22,14 @@ class Server()
   }
 
   // Ajouter les clients au matchmaking
-  def sendClientToMatchmaking(client: Client): Unit =
+  def sendClientToMatchmaking(client: RemoteClient): Unit =
   {
     println("Connexion du client: " + client.socket.getLocalAddress)
     matchmaker.enqueue(client)
   }
 
   // Lancer une partie avec deux clients
-  def startParty(client1: Client, client2: Client): Unit =
+  def startParty(client1: RemoteClient, client2: RemoteClient): Unit =
   {
     val party = new Party(this, client1, client2)
     partySet += party // Référencement pour empêcher garbage collection

@@ -1,6 +1,7 @@
 package server.io
 
 import fr.u_strasbg.tetramaster.shared.Message
+import game._
 import java.io._
 import java.net.Socket
 
@@ -8,19 +9,16 @@ import java.net.Socket
  * Permet d'envoyer des messages où d'en recevoir du client
  * @param socket Socket permettant de communiquer avec le client
  */
-class Client(val socket: Socket)
+class RemoteClient(val socket: Socket) extends Client
 {
   val in = new ObjectInputStream(new DataInputStream(socket.getInputStream()))
   val out = new ObjectOutputStream(new DataOutputStream(socket.getOutputStream()))
 
-  def receiveMessage(): Message =
-  {
-    val message = in.readObject().asInstanceOf[Message]
-    return message
+  override def receiveMessage(): Msg = {
+    in.readObject().asInstanceOf[Msg]
   }
 
-  def sendMessage(message: Message)
-  {
-    out.writeObject(message)
+  override def sendMessage(msg: Msg): Unit = {
+    out.writeObject(msg)
   }
 }
