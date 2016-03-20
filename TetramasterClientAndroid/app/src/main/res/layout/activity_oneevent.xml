@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Retour"
+            android:id="@+id/btn_return" android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Modifier"
+            android:id="@+id/btn_modify" android:layout_alignTop="@+id/btn_return" android:layout_centerHorizontal="true"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Supprimer"
+            android:id="@+id/btn_delete" android:layout_alignTop="@+id/btn_modify" android:layout_alignParentEnd="true"/>
+    <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnCount="2"
+            android:layout_alignParentTop="true" android:layout_alignParentStart="true" android:id="@+id/gridInfos">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nom de l&apos;évènement"
+                android:id="@+id/eventName" android:layout_row="0" android:layout_column="0"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/eventNameText" android:layout_row="0" android:layout_column="1"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date début"
+                android:id="@+id/eventBeginDate" android:layout_row="1" android:layout_column="0"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/eventBeginText" android:layout_row="1" android:layout_column="1"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date Fin"
+                android:id="@+id/eventEndDate" android:layout_row="2" android:layout_column="0"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/eventEndText" android:layout_row="2" android:layout_column="1"/>
+    </GridLayout>
+</RelativeLayout>

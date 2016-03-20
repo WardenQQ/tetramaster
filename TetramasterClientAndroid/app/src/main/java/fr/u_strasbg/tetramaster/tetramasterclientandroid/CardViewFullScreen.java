@@ -1,12 +1,9 @@
 package fr.u_strasbg.tetramaster.tetramasterclientandroid;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.*;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.widget.Toast;
 import fr.u_strasbg.tetramaster.shared.Card;
 
 

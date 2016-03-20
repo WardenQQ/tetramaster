@@ -66,6 +66,8 @@
             android:label="@string/title_activity_select_pseudo" >
         </activity>
         <activity android:name=".MyCollection" />
+        <activity android:name=".MyEvents" />
+        <activity android:name=".OneEvent" />
     </application>
 
 </manifest>
