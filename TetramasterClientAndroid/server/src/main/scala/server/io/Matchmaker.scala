@@ -11,9 +11,9 @@ import scala.collection.mutable
  */
 class Matchmaker(server: Server)
 {
-  val clientQueue = mutable.Queue[Client]()
+  val clientQueue = mutable.Queue[RemoteClient]()
 
-  def enqueue(client: Client): Unit =
+  def enqueue(client: RemoteClient): Unit =
   {
     this.clientQueue.enqueue(client)
 

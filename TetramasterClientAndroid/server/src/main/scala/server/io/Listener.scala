@@ -17,7 +17,7 @@ class Listener(server: Server, port: Int)
     while ( true )
     {
       // Dès qu'un client se connecte, il est mis dans la queue pour le matchmaking
-      val client = new Client(serverSocket.accept())
+      val client = new RemoteClient(serverSocket.accept())
       server.sendClientToMatchmaking(client)
     }
   }
