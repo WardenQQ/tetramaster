@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
+import android.widget.Toast;
 import fr.u_strasbg.tetramaster.tetramasterclientandroid.R;
 import game.*;
 
@@ -18,6 +19,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -123,12 +125,17 @@ public class tetramaster extends AppCompatActivity {
                     }
                 }
 
+
                 if (hand != null) {
                     int x = (1080 - hand.size() * 196 - (hand.size() - 1) * 16) / 2;
                     for (CardCell cell : hand) {
                         cell.draw(c, x, 1080);
                         x += (16 + 196);
                     }
+                }
+
+                if(draggedCard!=null){
+                    draggedCard.draw(c,draggedX,draggedY);
                 }
 
                 getHolder().unlockCanvasAndPost(c);
@@ -150,7 +157,7 @@ public class tetramaster extends AppCompatActivity {
                     }
                     else if (msg instanceof GiveHand) {
                         GiveHand m = (GiveHand)msg;
-                        hand = new ArrayList<>(5);
+                        hand = Collections.synchronizedList(new ArrayList<CardCell>(5));
                         for (Card c : scala.collection.JavaConversions.seqAsJavaList(m.hand())) {
                             hand.add(new CardCell(c));
                         }
@@ -165,14 +172,22 @@ public class tetramaster extends AppCompatActivity {
         public boolean onTouchEvent(MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    draggedCard = hand.remove(0);
+                    if(!hand.isEmpty())
+                    {
+                        draggedCard = hand.get(0);
+                    }
                 case MotionEvent.ACTION_MOVE:
-                    event.getX();
-                    event.getY();
-                    break;
+                    draggedX=(int)event.getX()-98;
+                    draggedY=(int)event.getY()-98;
+                    return true;
 
                 case MotionEvent.ACTION_UP:
-                    break;
+                    draggedCard=null;
+                    if(draggedX>124&&draggedX<124+48+784&&draggedY>124&&draggedY<124+48+784)
+                    {
+                        Toast.makeText(getContext(), "dans la grille", Toast.LENGTH_SHORT).show();
+                    }
+                    return true;
             }
             return super.onTouchEvent(event);
         }
