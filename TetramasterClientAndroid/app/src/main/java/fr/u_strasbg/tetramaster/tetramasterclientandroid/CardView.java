@@ -1,11 +1,7 @@
 package fr.u_strasbg.tetramaster.tetramasterclientandroid;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.Point;
+import android.graphics.*;
 import android.view.View;
 import android.widget.ListView;
 import fr.u_strasbg.tetramaster.shared.Card;
@@ -15,6 +11,7 @@ public class CardView extends View {
     public fr.u_strasbg.tetramaster.shared.Card myCard;
     public int joueur;
     public boolean clickable;
+    private int cardWidth, cardHeight, arrowSize;
     public CardView(Context context, Card card, int joueur, boolean clickable)
     {
         super(context);
@@ -26,8 +23,9 @@ public class CardView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        int x=100;
-        int y=100;
+        int x=getCardWidth();
+        int y=getCardHeight();
+        arrowSize = x/20;
         Paint paintCard = new Paint();
         paintCard.setStyle(Paint.Style.FILL);
         if(this.joueur==0)
@@ -55,8 +53,8 @@ public class CardView extends View {
         if(myCard.getArrays()[0])
         {
             Point pt1=new Point(x/2,0);
-            Point pt2=new Point(x/2+10,10);
-            Point pt3=new Point(x/2-10,10);
+            Point pt2=new Point(x/2+arrowSize,arrowSize);
+            Point pt3=new Point(x/2-arrowSize,arrowSize);
 
             Path path = new Path();
             path.setFillType(Path.FillType.EVEN_ODD);
@@ -68,9 +66,9 @@ public class CardView extends View {
         }
         if (myCard.getArrays()[1])
         {
-            Point pt1=new Point(x-10,0);
+            Point pt1=new Point(x-arrowSize,0);
             Point pt2=new Point(x,0);
-            Point pt3=new Point(x,10);
+            Point pt3=new Point(x,arrowSize);
 
             Path path = new Path();
             path.setFillType(Path.FillType.EVEN_ODD);
@@ -83,8 +81,8 @@ public class CardView extends View {
         if (myCard.getArrays()[2])
         {
             Point pt1=new Point(x,y/2);
-            Point pt2=new Point(x-10,y/2-10);
-            Point pt3=new Point(x-10,y/2+10);
+            Point pt2=new Point(x-arrowSize,y/2-arrowSize);
+            Point pt3=new Point(x-arrowSize,y/2+arrowSize);
 
             Path path = new Path();
             path.setFillType(Path.FillType.EVEN_ODD);
@@ -97,8 +95,8 @@ public class CardView extends View {
         if (myCard.getArrays()[3])
         {
             Point pt1=new Point(x,y);
-            Point pt2=new Point(x-10,y);
-            Point pt3=new Point(x,y-10);
+            Point pt2=new Point(x-arrowSize,y);
+            Point pt3=new Point(x,y-arrowSize);
 
             Path path = new Path();
             path.setFillType(Path.FillType.EVEN_ODD);
@@ -111,8 +109,8 @@ public class CardView extends View {
         if (myCard.getArrays()[4])
         {
             Point pt1=new Point(x/2,y);
-            Point pt2=new Point(x/2+10,y-10);
-            Point pt3=new Point(x/2-10,y-10);
+            Point pt2=new Point(x/2+arrowSize,y-arrowSize);
+            Point pt3=new Point(x/2-arrowSize,y-arrowSize);
 
             Path path = new Path();
             path.setFillType(Path.FillType.EVEN_ODD);
@@ -125,8 +123,8 @@ public class CardView extends View {
         if (myCard.getArrays()[5])
         {
             Point pt1=new Point(0,y);
-            Point pt2=new Point(10,y);
-            Point pt3=new Point(0,y-10);
+            Point pt2=new Point(arrowSize,y);
+            Point pt3=new Point(0,y-arrowSize);
 
             Path path = new Path();
             path.setFillType(Path.FillType.EVEN_ODD);
@@ -139,8 +137,8 @@ public class CardView extends View {
         if (myCard.getArrays()[6])
         {
             Point pt1=new Point(0,y/2);
-            Point pt2=new Point(10,y/2+10);
-            Point pt3=new Point(10,y/2-10);
+            Point pt2=new Point(arrowSize,y/2+arrowSize);
+            Point pt3=new Point(arrowSize,y/2-arrowSize);
 
             Path path = new Path();
             path.setFillType(Path.FillType.EVEN_ODD);
@@ -153,8 +151,8 @@ public class CardView extends View {
         if (myCard.getArrays()[7])
         {
             Point pt1=new Point(0,0);
-            Point pt2=new Point(10,0);
-            Point pt3=new Point(0,10);
+            Point pt2=new Point(arrowSize,0);
+            Point pt3=new Point(0,arrowSize);
 
             Path path = new Path();
             path.setFillType(Path.FillType.EVEN_ODD);
@@ -164,13 +162,36 @@ public class CardView extends View {
             path.close();
             canvas.drawPath(path,paintArray);
         }
-        int def = myCard.getMagicalDef();
-        int atq = myCard.getAttack();
         Paint paintText = new Paint();
         paintText.setColor(Color.YELLOW);
         paintText.setTextSize(16);
-        canvas.drawText(String.valueOf(atq),70,y/2,paintText);
-        canvas.drawText(String.valueOf(def),30,y/2,paintText);
+        String atqHex=Integer.toHexString(myCard.getAttack()).toUpperCase();
+        String physDefHex=Integer.toHexString(myCard.getPhysicalDef()).toUpperCase();
+        String magDefHex=Integer.toHexString(myCard.getMagicalDef()).toUpperCase();
+        String type = myCard.getPowerType().toUpperCase();
+        String attributes = atqHex+type+physDefHex+magDefHex;
+        Rect bounds = new Rect();
+        paintText.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        paintText.setTextSize(20);
+        paintText.getTextBounds(attributes, 0, attributes.length(), bounds);
+        int offset = (getCardWidth() / 2) - (bounds.width() / 2);
+        canvas.drawText(attributes,offset,y/2,paintText);
+    }
+
+    public int getCardWidth() {
+        return this.cardWidth;
+    }
+
+    public void setCardWidth(int windowWidth){
+        this.cardWidth = windowWidth;
+    }
+
+    public int getCardHeight() {
+        return this.cardHeight;
+    }
+
+    public void setCardHeight(int windowHeight){
+        this.cardHeight = windowHeight;
     }
 
 }

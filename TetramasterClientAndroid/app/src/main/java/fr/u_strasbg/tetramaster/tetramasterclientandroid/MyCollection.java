@@ -20,15 +20,13 @@ public class MyCollection extends AppCompatActivity {
     PopupWindow popUp;
     Button btn_return, btn_newdeck;
     boolean clicked=false;
-    boolean[] arrows = {true,false,true,false,true,false,true,false};
+    boolean[] arrows = {true,false,true,true,true,false,true,false};
     private static final String TAG = "MyDebug";
     Card card = new Card(arrows,2,3,4,"Magic");
     Card card2 = new Card(arrows,5,1,7,"Physical");
     Card card3 = new Card(arrows,10,1,12,"Toto");
     Card card4 = new Card(arrows,1,13,14,"TOTO");
-    private int popUpWidth;
-    private int popUpHeight;
-    private int windowWidth, windowHeight;
+    private int popUpWidth, popUpHeight, cardWidth, cardHeight,windowWidth, windowHeight;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -37,15 +35,19 @@ public class MyCollection extends AppCompatActivity {
         btn_return = (Button) findViewById(R.id.btn_return);
         btn_newdeck = (Button) findViewById(R.id.btn_newdeck);
         list = (ListView) findViewById(R.id.list_cards);
-        lAdapter=new ListAdapter(this);
-        list.setAdapter(lAdapter);
         Point size = new Point();
         Display display = getWindowManager().getDefaultDisplay();
         display.getSize(size);
         windowWidth = size.x;
         windowHeight = size.y;
-        popUpWidth= min(windowWidth,windowHeight)-200;
-        popUpHeight= min(windowWidth,windowHeight)-200;
+        cardWidth = min(windowWidth,windowHeight)/3;
+        cardHeight = min(windowWidth,windowHeight)/3;
+        popUpWidth = min(windowWidth,windowHeight)-200;
+        popUpHeight = min(windowWidth,windowHeight)-200;
+        lAdapter=new ListAdapter(this);
+        lAdapter.setCardWidth(cardWidth);
+        lAdapter.setCardHeight(cardHeight);
+        list.setAdapter(lAdapter);
         Log.d(TAG, "window Width:" + windowWidth + " window height : "+ windowHeight);
         collection = new Card[20];
         collection[0]=card;
@@ -89,6 +91,7 @@ public class MyCollection extends AppCompatActivity {
                     popUp.dismiss();
                     clicked=false;
                 }
+
                 /*if(popUp.isOutsideTouchable()&&popUp.isShowing())
                 {
                     popUp.dismiss();

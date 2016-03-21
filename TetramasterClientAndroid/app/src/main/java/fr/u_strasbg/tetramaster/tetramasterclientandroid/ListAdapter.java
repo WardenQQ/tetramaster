@@ -8,7 +8,7 @@ import fr.u_strasbg.tetramaster.shared.Card;
 
 public class ListAdapter extends BaseAdapter {
     private Context mContext;
-
+    private int cardWidth, cardHeight;
     // Keep all Images in array
     private Card[] deck;
     private int team;
@@ -55,8 +55,26 @@ public class ListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         CardView card = new CardView(mContext, deck[position], team, false);
-        card.setMinimumWidth(100);
-        card.setMinimumHeight(100);
+        card.setCardWidth(getCardWidth());
+        card.setCardHeight(getCardHeight());
+        card.setMinimumWidth(getCardWidth());
+        card.setMinimumHeight(getCardHeight());
         return card;
+    }
+
+    public int getCardWidth() {
+        return this.cardWidth;
+    }
+
+    public void setCardWidth(int windowWidth){
+        this.cardWidth = windowWidth;
+    }
+
+    public int getCardHeight() {
+        return this.cardHeight;
+    }
+
+    public void setCardHeight(int windowHeight){
+        this.cardHeight = windowHeight;
     }
 }
