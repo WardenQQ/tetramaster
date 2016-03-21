@@ -1,6 +1,7 @@
 package fr.u_strasbg.tetramaster.tetramasterclientandroid;
 
 import android.content.Intent;
+import android.game.tetramaster;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -45,7 +46,7 @@ public class Connected extends AppCompatActivity {
         {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), Grid.class));
+                startActivity(new Intent(getApplicationContext(), tetramaster.class));
             }
         });
 
