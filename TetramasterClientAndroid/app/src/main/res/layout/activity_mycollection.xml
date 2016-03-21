@@ -26,8 +26,13 @@
                 android:text="Retour"
                 android:id="@+id/btn_return"/>
     </LinearLayout>
-    <ListView
+    <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="385dp"
-            android:id="@+id/list_cards" android:layout_weight="0.97"/>
+            android:layout_height="match_parent">
+        <ListView
+                android:layout_width="match_parent"
+                android:layout_height="456dp"
+                android:id="@+id/list_cards"/>
+    </LinearLayout>
 </LinearLayout>

@@ -26,12 +26,9 @@ public class MyCollection extends AppCompatActivity {
     Card card2 = new Card(arrows,5,1,7,"Physical");
     Card card3 = new Card(arrows,10,1,12,"Toto");
     Card card4 = new Card(arrows,1,13,14,"TOTO");
-    private final int popUpWidth = 400;
-    private final int popUpHeight = 400;
+    private int popUpWidth;
+    private int popUpHeight;
     private int windowWidth, windowHeight;
-    LinearLayout par;
-
-
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -47,6 +44,9 @@ public class MyCollection extends AppCompatActivity {
         display.getSize(size);
         windowWidth = size.x;
         windowHeight = size.y;
+        popUpWidth= min(windowWidth,windowHeight)-200;
+        popUpHeight= min(windowWidth,windowHeight)-200;
+        Log.d(TAG, "window Width:" + windowWidth + " window height : "+ windowHeight);
         collection = new Card[20];
         collection[0]=card;
         collection[1]=card;
@@ -75,13 +75,13 @@ public class MyCollection extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                popUp=new PopupWindow(new CardViewFullScreen(getApplicationContext(),collection[position]),popUpWidth,popUpHeight);
+                popUp=new PopupWindow(new CardViewFullScreen(getApplicationContext(),collection[position],popUpWidth,popUpHeight),popUpWidth,popUpHeight);
                 popUp.setOutsideTouchable(true);
                 popUp.setTouchable(true);
                 popUp.setBackgroundDrawable(new ColorDrawable());
                 if(!clicked)
                 {
-                    popUp.showAtLocation(v, Gravity.TOP, windowWidth/2-popUpWidth/2, windowHeight/2-popUpHeight/2);
+                    popUp.showAtLocation(v, Gravity.CENTER, 0, 0);
                     clicked=true;
                 }
                 else
@@ -89,7 +89,10 @@ public class MyCollection extends AppCompatActivity {
                     popUp.dismiss();
                     clicked=false;
                 }
-                //popUp.update(300,300);
+                /*if(popUp.isOutsideTouchable()&&popUp.isShowing())
+                {
+                    popUp.dismiss();
+                }*/
             }
         });
         btn_return.setOnClickListener(new View.OnClickListener()
@@ -99,5 +102,14 @@ public class MyCollection extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), Connected.class));
             }
         });
+    }
+
+    public int min(int width, int height) {
+        if(width<height){
+            return width;
+        }
+        else{
+            return height;
+        }
     }
 }
