@@ -9,17 +9,22 @@ import game.Pos;
 /**
  * Created by mmichels on 3/20/2016.
  */
-public class EmptyCell implements Drawable {
-    Paint p;
+public class EmptyCell extends CellEntity implements Drawable {
+    Paint p = new Paint();
 
-    public EmptyCell() {
-        p = new Paint();
+    public EmptyCell(int x, int y) {
+        super(x, y);
+
         p.setColor(Color.rgb(255, 255, 255));
     }
 
     @Override
-    public void draw(Canvas c, int x, int y) {
+    public void draw(Canvas c) {
+        draw(c, 0, 0);
+    }
 
-        c.drawRect(x, y, x + 196, y + 196, p);
+    @Override
+    public void draw(Canvas c, int x, int y) {
+        c.drawRect(super.rect, p);
     }
 }

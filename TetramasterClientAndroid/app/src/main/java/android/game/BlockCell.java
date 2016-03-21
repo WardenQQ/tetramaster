@@ -3,19 +3,25 @@ package android.game;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 
 
-public class BlockCell implements Drawable {
-    Paint p;
+public class BlockCell extends CellEntity implements Drawable {
+    Paint p = new Paint();
 
-    public BlockCell() {
-        p = new Paint();
+    public BlockCell(int x, int y) {
+        super(x, y);
+
         p.setColor(Color.rgb(16, 16, 16));
     }
 
     @Override
-    public void draw(Canvas c, int x, int y) {
+    public void draw(Canvas c) {
+        draw(c, 0, 0);
+    }
 
-        c.drawRect(x, y, x + 196, y + 196, p);
+    @Override
+    public void draw(Canvas c, int x, int y) {
+        c.drawRect(super.rect, p);
     }
 }

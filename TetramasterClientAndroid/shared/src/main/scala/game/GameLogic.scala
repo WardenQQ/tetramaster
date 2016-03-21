@@ -227,6 +227,10 @@ object GameLogic {
     (grid, hands)
   }
 
+  def emptyGrid(): Grid = {
+    Array.fill(4, 4) { Empty() }
+  }
+
   def randomCard(): Card = {
     val allDir = List(Pos(-1, -1), Pos(-1, 0), Pos(-1, 1), Pos(0, -1), Pos(0, 1), Pos(1, -1), Pos(1, 0), Pos(1, 1))
     val r = new Random()

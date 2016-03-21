@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -102,13 +101,21 @@ public class tetramaster extends AppCompatActivity {
         CardCell draggedCard;
         int draggedX, draggedY;
 
+        GridEntity gridEntity = new GridEntity(124, 124);
+        HandEntity handEntity = new HandEntity(1080 / 2, 1080);
+
+        State state = new StateWaitTurn();
+
+        Pos chosenPos = null;
+        int chosenCard = -1;
+
 
         public TetramasterView(Context context) {
             super(context);
 
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
-                    grid[i][j] = new EmptyCell();
+                    grid[i][j] = new EmptyCell(124 + i * (16 + 196), 124 + j * (16 + 196));
                 }
             }
         }
@@ -119,20 +126,8 @@ public class tetramaster extends AppCompatActivity {
 
                 c.drawColor(Color.argb(255, 128, 0, 128));
 
-                for (int i = 0; i < 4; i++) {
-                    for (int j = 0; j < 4; j++) {
-                        grid[i][j].draw(c, 124 + i * (16 + 196), 124 + j * (16 + 196));
-                    }
-                }
-
-
-                if (hand != null) {
-                    int x = (1080 - hand.size() * 196 - (hand.size() - 1) * 16) / 2;
-                    for (CardCell cell : hand) {
-                        cell.draw(c, x, 1080);
-                        x += (16 + 196);
-                    }
-                }
+                gridEntity.draw(c);
+                handEntity.draw(c);
 
                 if(draggedCard!=null){
                     draggedCard.draw(c,draggedX,draggedY);
@@ -145,22 +140,30 @@ public class tetramaster extends AppCompatActivity {
         @Override
         public void run() {
             while (isPlaying) {
-                if (!network.msgQueue.isEmpty()) {
-                    Msg msg = network.msgQueue.poll();
+                if (!network.receiveQueue.isEmpty()) {
+                    Msg msg = network.receiveQueue.poll();
 
                     if (msg instanceof SetBlocks) {
                         SetBlocks m = (SetBlocks)msg;
                         List<Pos> l = scala.collection.JavaConversions.seqAsJavaList(m.blocks());
+                        gridEntity.addBlocks(l);
                         for (Pos p : l) {
-                            grid[p.x()][p.y()] = new BlockCell();
+                            grid[p.x()][p.y()] = new BlockCell(124 + p.x() * (16 + 196), 124 + p.y() * (16 + 196));
                         }
                     }
                     else if (msg instanceof GiveHand) {
                         GiveHand m = (GiveHand)msg;
                         hand = Collections.synchronizedList(new ArrayList<CardCell>(5));
                         for (Card c : scala.collection.JavaConversions.seqAsJavaList(m.hand())) {
-                            hand.add(new CardCell(c));
+                            hand.add(new CardCell(0, 0, c, 0));
+                            handEntity.add(c);
                         }
+                    }
+                    else if (msg instanceof StartTurn) {
+                        state = new StatePlayCard();
+                    }
+                    else if (msg instanceof CmdFightCard) {
+                        state = new StateFightCard();
                     }
                 }
 
@@ -170,24 +173,26 @@ public class tetramaster extends AppCompatActivity {
 
         @Override
         public boolean onTouchEvent(MotionEvent event) {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    if(!hand.isEmpty())
-                    {
-                        draggedCard = hand.get(0);
-                    }
-                case MotionEvent.ACTION_MOVE:
-                    draggedX=(int)event.getX()-98;
-                    draggedY=(int)event.getY()-98;
-                    return true;
+            if (state instanceof StatePlayCard) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                    case MotionEvent.ACTION_MOVE:
+                        return true;
 
-                case MotionEvent.ACTION_UP:
-                    draggedCard=null;
-                    if(draggedX>124&&draggedX<124+48+784&&draggedY>124&&draggedY<124+48+784)
-                    {
-                        Toast.makeText(getContext(), "dans la grille", Toast.LENGTH_SHORT).show();
-                    }
-                    return true;
+                    case MotionEvent.ACTION_UP:
+                        draggedCard=null;
+
+                        Pos p = gridEntity.intersect((int)event.getX(), (int)event.getY());
+                        if (p != null) {
+                            Toast.makeText(getContext(), "Grille x: " + p.x() + "  y: " + p.y(), Toast.LENGTH_SHORT).show();
+                        }
+
+                        int h = handEntity.intersect((int)event.getX(), (int)event.getY());
+                        if (h != -1) {
+                            Toast.makeText(getContext(), "Main : " + h, Toast.LENGTH_SHORT).show();
+                        }
+                        return true;
+                }
             }
             return super.onTouchEvent(event);
         }
@@ -198,7 +203,8 @@ public class tetramaster extends AppCompatActivity {
         ObjectOutputStream out;
         ObjectInputStream in;
 
-        public Queue<Msg> msgQueue = new ConcurrentLinkedQueue<>();
+        public Queue<Msg> receiveQueue = new ConcurrentLinkedQueue<>();
+        public Queue<Msg> sendQueue = new ConcurrentLinkedQueue<>();
 
         @Override
         public void run() {
@@ -218,7 +224,7 @@ public class tetramaster extends AppCompatActivity {
 
                     if (obj instanceof Msg) {
                         Msg m = (Msg)obj;
-                        msgQueue.add(m);
+                        receiveQueue.add(m);
                     }
                 }
                 catch (ClassNotFoundException e) {

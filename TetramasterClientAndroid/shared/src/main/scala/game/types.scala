@@ -35,3 +35,4 @@ case class CmdFightCard(pos: Pos) extends Msg
 sealed abstract class State
 case class StatePlayCard() extends State
 case class StateFightCard() extends State
+case class StateWaitTurn() extends State
