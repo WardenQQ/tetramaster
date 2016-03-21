@@ -7,11 +7,9 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.view.View;
+import android.widget.ListView;
 import fr.u_strasbg.tetramaster.shared.Card;
 
-/**
- * Created by Ricardo on 03/12/2015.
- */
 public class CardView extends View {
 
     public fr.u_strasbg.tetramaster.shared.Card myCard;
