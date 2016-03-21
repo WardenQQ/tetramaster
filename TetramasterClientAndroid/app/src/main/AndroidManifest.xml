@@ -69,8 +69,9 @@
         <activity android:exported="true"
             android:name="android.game.tetramaster"
             android:label="@string/title_activity_tetramaster" >
-
         </activity>
+        <activity android:name=".MyEvents" />
+        <activity android:name=".OneEvent" />
     </application>
 
 </manifest>

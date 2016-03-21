@@ -16,11 +16,12 @@ import com.google.android.gms.common.api.GoogleApiClient;
 public class Connected extends AppCompatActivity {
     String addr;
     int port;
-
-    Button btn_envois, btn_grid, btn_geoloc, btn_disconnect, btn_mycollection;
+    boolean isAdmin=true;
+    Button btn_envois, btn_grid, btn_geoloc, btn_disconnect, btn_mycollection, btn_myevents;
     EditText txt_connect;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connected);
         addr = "192.168.0.134";//"130.79.206.217";
@@ -28,9 +29,17 @@ public class Connected extends AppCompatActivity {
         btn_disconnect = (Button) findViewById(R.id.btn_disconnect);
         btn_envois     = (Button) findViewById(R.id.btn_envois);
         btn_geoloc     = (Button) findViewById(R.id.btn_geoloc);
-        txt_connect    = (EditText) findViewById(R.id.txt_connect);
         btn_grid       = (Button) findViewById(R.id.buttonGrid);
         btn_mycollection = (Button) findViewById(R.id.btn_collection);
+        btn_myevents = (Button) findViewById(R.id.btn_myevents);
+        if(isAdmin)
+        {
+            btn_myevents.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            btn_myevents.setVisibility(View.GONE);
+        }
 
         btn_grid.setOnClickListener(new View.OnClickListener()
         {
@@ -67,6 +76,13 @@ public class Connected extends AppCompatActivity {
             @Override
             public void onClick(View arg0){
                 startActivity(new Intent(getApplicationContext(), MyCollection.class));
+            }
+        });
+
+        btn_myevents.setOnClickListener(new OnClickListener(){
+            @Override
+            public void onClick(View arg0){
+                startActivity(new Intent(getApplicationContext(), MyEvents.class));
             }
         });
     }
