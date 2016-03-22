@@ -173,23 +173,29 @@ public class tetramaster extends AppCompatActivity {
 
         @Override
         public boolean onTouchEvent(MotionEvent event) {
-            if (state instanceof StatePlayCard) {
+            if (true) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        int h = handEntity.intersect((int)event.getX(), (int)event.getY());
+                        if (h != -1) {
+                            handEntity.select(h);
+                        }
+
                     case MotionEvent.ACTION_MOVE:
+                        if (handEntity.hasSelected()) {
+                            handEntity.setSelectedPosition((int)event.getX(), (int)event.getY());
+                        }
                         return true;
 
                     case MotionEvent.ACTION_UP:
-                        draggedCard=null;
-
-                        Pos p = gridEntity.intersect((int)event.getX(), (int)event.getY());
-                        if (p != null) {
-                            Toast.makeText(getContext(), "Grille x: " + p.x() + "  y: " + p.y(), Toast.LENGTH_SHORT).show();
-                        }
-
-                        int h = handEntity.intersect((int)event.getX(), (int)event.getY());
-                        if (h != -1) {
-                            Toast.makeText(getContext(), "Main : " + h, Toast.LENGTH_SHORT).show();
+                        if (handEntity.hasSelected()) {
+                            Pos p = gridEntity.intersect((int)event.getX(), (int)event.getY());
+                            if (p != null) {
+                                gridEntity.addCardCell(handEntity.removeSelect(), p);
+                            }
+                            else {
+                                handEntity.cancelSelect();
+                            }
                         }
                         return true;
                 }
@@ -210,7 +216,6 @@ public class tetramaster extends AppCompatActivity {
         public void run() {
             try {
                 socket = new Socket("130.79.206.217", 1024);
-                // Il faut respecter l'ordre d'abord OutputStream puis InputStream sinon on se fait Narbouter
                 out = new ObjectOutputStream(socket.getOutputStream());
                 in = new ObjectInputStream(socket.getInputStream());
             }

@@ -29,10 +29,15 @@ public class GridEntity {
         }
     }
 
+    public void addCardCell(CardCell card, Pos p) {
+        grid[p.x()][p.y()] = card;
+        card.setPosition(posX + (CellEntity.size + padding) * p.x(), posY + (CellEntity.size + padding) * p.y());
+    }
+
     public Pos intersect(int x, int y) {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                if (grid[i][j].intersect(x, y))
+                if (grid[i][j].intersect(x, y) && grid[i][j] instanceof EmptyCell)
                     return new Pos(i, j);
             }
         }
