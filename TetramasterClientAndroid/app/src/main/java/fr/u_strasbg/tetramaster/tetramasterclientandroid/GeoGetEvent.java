@@ -19,17 +19,15 @@ import java.net.URL;
 public class GeoGetEvent extends AsyncTask<Void, Void, Boolean> {
     private static final String USER_AGENT = "Mozilla/5.0";
     private static final String GET_URL ="http://tetramaster.u-strasbg.fr/get_event.php";
-    private JSONObject json_map;
-    public static void getMap(){
+    public static JSONObject getEvent(){
         URL obj;
+        JSONObject json_event = null;
         try {
             obj = new URL(GET_URL);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("User-Agent", USER_AGENT);
             int connection = con.getResponseCode();
-            String lol ="";
-            JSONObject json_event;
             try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
                 StringBuilder sb = new StringBuilder();
                 String line = "";
@@ -43,7 +41,8 @@ public class GeoGetEvent extends AsyncTask<Void, Void, Boolean> {
                     e.printStackTrace();
                 }
             }
-        String loafal = "";
+            con.disconnect();
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (ProtocolException e) {
@@ -51,10 +50,11 @@ public class GeoGetEvent extends AsyncTask<Void, Void, Boolean> {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return json_event;
     }
     @Override
     protected Boolean doInBackground(Void... params) {
-        getMap();
+        getEvent();
         return null;
     }
 }

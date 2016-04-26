@@ -26,6 +26,7 @@ public class GeoConnect {
     private static JSONObject jsonInsert = null;
     private static JSONObject jsonGet = null;
     public static void getMap() throws  IOException, JSONException{
+
         URL obj = new URL(GET_URL);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
