@@ -1,4 +1,4 @@
-package fr.u_strasbg.tetramaster.tetramasterclientandroid;
+package fr.u_strasbg.tetramaster.tetramasterclientandroid.Geolocalisation;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polygon;

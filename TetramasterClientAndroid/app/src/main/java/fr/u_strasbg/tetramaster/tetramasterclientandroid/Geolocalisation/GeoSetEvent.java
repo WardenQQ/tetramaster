@@ -1,4 +1,4 @@
-package fr.u_strasbg.tetramaster.tetramasterclientandroid;
+package fr.u_strasbg.tetramaster.tetramasterclientandroid.Geolocalisation;
 
 import org.json.JSONObject;
 

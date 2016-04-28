@@ -19,7 +19,6 @@
         android:clickable="true" />
 
     <Button
-        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Geoloc Carte"
@@ -37,8 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Deconnection"
-            android:id="@+id/btn_disconnect" android:layout_alignParentTop="true" android:layout_alignParentEnd="true"
-    />
+            android:id="@+id/btn_disconnect" android:layout_alignParentTop="true" android:layout_alignParentEnd="true" />
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,4 +49,5 @@
             android:text="Mes évenements"
             android:id="@+id/btn_myevents" android:layout_below="@+id/btn_geoloc"
             android:layout_alignStart="@+id/btn_collection"/>
+
 </RelativeLayout>
