@@ -12,6 +12,9 @@ public class Card implements Serializable {
     private int attack;
     private String powerType;
 
+
+    private String cardName;
+
     public int getId() {
         return id;
     }
@@ -60,12 +63,18 @@ public class Card implements Serializable {
         this.powerType = powerType;
     }
 
-    public Card(boolean[] arrays,int magicalDef,int physicalDef,int attack,String powerType)
+    public String getCardName() { return cardName; }
+
+    public void setCardName(String cardName) { this.cardName = cardName; }
+
+
+    public Card(boolean[] arrays,int magicalDef,int physicalDef,int attack,String powerType, String cardName)
     {
         this.arrays = arrays;
         this.setMagicalDef(magicalDef);
         this.setAttack(attack);
         this.setPhysicalDef(physicalDef);
         this.setPowerType(powerType);
+        this.setCardName(cardName);
     }
 }

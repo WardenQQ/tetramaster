@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private static final String TAG = "MyDebug";
     private static final int RC_SIGN_IN = 9001;
     CallbackManager callbackManager;
-    Button btn_connect;
+    Button btn_connect, btn_createLogin;
     LoginButton loginButton;
     private GoogleApiClient mGoogleApiClient;
     EditText txt_connect;
@@ -80,13 +80,22 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             }
         });
 
-        btn_connect      = (Button) findViewById(R.id.connectButton);
+        btn_connect = (Button) findViewById(R.id.connectButton);
+        btn_createLogin = (Button) findViewById(R.id.btn_createLogin);
 
         btn_connect.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), Connected.class));
+            }
+        });
+
+        btn_createLogin.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), CreateLogin.class));
             }
         });
         Log.d(TAG, "token fb :" + isAlreadyConnected("Facebook"));

@@ -44,7 +44,6 @@ public class MyEvents extends AppCompatActivity {
         display.getSize(size);
         windowWidth = size.x;
         windowHeight = size.y;
-
     }
 
     private void populateListView(){

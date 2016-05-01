@@ -18,8 +18,8 @@
         <Button
                 android:layout_width="209dp"
                 android:layout_height="wrap_content"
-                android:text="Nouveau deck"
-                android:id="@+id/btn_newdeck"/>
+                android:text="Mes decks"
+                android:id="@+id/btn_mydecks"/>
         <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

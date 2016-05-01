@@ -70,8 +70,12 @@
             android:name="android.game.tetramaster"
             android:label="@string/title_activity_tetramaster" >
         </activity>
+        <activity android:name=".CreateLogin"/>
         <activity android:name=".MyEvents" />
         <activity android:name=".OneEvent" />
+        <activity android:name=".MyDecks" />
+        <activity android:name=".OneDeck" />
+        <activity android:name=".AddCardToDeck" />
     </application>
 
 </manifest>

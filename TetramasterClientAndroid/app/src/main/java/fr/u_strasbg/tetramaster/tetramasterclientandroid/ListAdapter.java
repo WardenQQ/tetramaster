@@ -5,27 +5,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import fr.u_strasbg.tetramaster.shared.Card;
+import fr.u_strasbg.tetramaster.shared.Deck;
 
 public class ListAdapter extends BaseAdapter {
     private Context mContext;
-    private int cardWidth, cardHeight;
-    // Keep all Images in array
-    private Card[] deck;
+    private int cardWidth;
+    private int cardHeight;
+    private int windowWidth;
+    private Deck deck;
     private int team;
-    public View[] cell =  { null,null,null,null,null
+    private boolean viewCardName, viewButtonAddCard;
 
-    };
-
-    // Constructor
     public ListAdapter(Context c){
         mContext = c;
     }
 
-    public Card[] getDeck() {
+    public Deck getDeck() {
         return deck;
     }
 
-    public void setDeck(Card[] deck) {
+    public void setDeck(Deck deck) {
         this.deck = deck;
         notifyDataSetChanged();
     }
@@ -36,29 +35,30 @@ public class ListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (deck == null) {
+        if (deck.getListCards() == null) {
             return 0;
         }
-        return deck.length;
+        return deck.getListCards().length;
     }
 
     @Override
     public Object getItem(int position) {
-        return deck[position];
+        return deck.getListCards()[position];
     }
 
     @Override
     public long getItemId(int position) {
-        return deck[position].getId();
+        return deck.getListCards()[position].getId();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        CardView card = new CardView(mContext, deck[position], team, false);
+        CardView card = new CardView(mContext, deck.getListCards()[position], team, false, isViewCardName(), isViewButtonAddCard());
         card.setCardWidth(getCardWidth());
         card.setCardHeight(getCardHeight());
         card.setMinimumWidth(getCardWidth());
         card.setMinimumHeight(getCardHeight());
+        card.setWindowWidth(getWindowWidth());
         return card;
     }
 
@@ -76,5 +76,29 @@ public class ListAdapter extends BaseAdapter {
 
     public void setCardHeight(int windowHeight){
         this.cardHeight = windowHeight;
+    }
+
+    public int getWindowWidth() {
+        return windowWidth;
+    }
+
+    public void setWindowWidth(int windowWidth) {
+        this.windowWidth = windowWidth;
+    }
+
+    public boolean isViewCardName() {
+        return viewCardName;
+    }
+
+    public void setViewCardName(boolean viewCardName) {
+        this.viewCardName = viewCardName;
+    }
+
+    public boolean isViewButtonAddCard() {
+        return viewButtonAddCard;
+    }
+
+    public void setViewButtonAddCard(boolean viewButtonAddCard) {
+        this.viewButtonAddCard = viewButtonAddCard;
     }
 }

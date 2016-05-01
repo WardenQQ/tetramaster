@@ -12,20 +12,20 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import fr.u_strasbg.tetramaster.shared.Card;
+import fr.u_strasbg.tetramaster.shared.Deck;
 
 public class MyCollection extends AppCompatActivity {
     ListAdapter lAdapter;
     ListView list;
     Card[] collection;
     PopupWindow popUp;
-    Button btn_return, btn_newdeck;
-    boolean clicked=false;
+    Button btn_return, btn_mydecks;
     boolean[] arrows = {true,false,true,true,true,false,true,false};
     private static final String TAG = "MyDebug";
-    Card card = new Card(arrows,2,3,4,"Magic");
-    Card card2 = new Card(arrows,5,1,7,"Physical");
-    Card card3 = new Card(arrows,10,1,12,"Toto");
-    Card card4 = new Card(arrows,1,13,14,"TOTO");
+    Card card = new Card(arrows,2,3,4,"Magic", "Cathedralol");
+    Card card2 = new Card(arrows,5,1,7,"Physical", "Cathedralol");
+    Card card3 = new Card(arrows,10,1,12,"Toto", "Pole APILOL");
+    Card card4 = new Card(arrows,1,13,14,"TOTO", "In hell");
     private int popUpWidth, popUpHeight, cardWidth, cardHeight,windowWidth, windowHeight;
 
     @Override
@@ -33,7 +33,7 @@ public class MyCollection extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mycollection);
         btn_return = (Button) findViewById(R.id.btn_return);
-        btn_newdeck = (Button) findViewById(R.id.btn_newdeck);
+        btn_mydecks = (Button) findViewById(R.id.btn_mydecks);
         list = (ListView) findViewById(R.id.list_cards);
         Point size = new Point();
         Display display = getWindowManager().getDefaultDisplay();
@@ -47,7 +47,10 @@ public class MyCollection extends AppCompatActivity {
         lAdapter=new ListAdapter(this);
         lAdapter.setCardWidth(cardWidth);
         lAdapter.setCardHeight(cardHeight);
-        list.setAdapter(lAdapter);
+        lAdapter.setWindowWidth(windowWidth);
+        lAdapter.setViewButtonAddCard(false);
+        lAdapter.setViewCardName(true);
+
         Log.d(TAG, "window Width:" + windowWidth + " window height : "+ windowHeight);
         collection = new Card[20];
         collection[0]=card;
@@ -70,32 +73,29 @@ public class MyCollection extends AppCompatActivity {
         collection[17]=card2;
         collection[18]=card2;
         collection[19]=card2;
-        lAdapter.setDeck(collection);
+        Deck deck = new Deck(1,collection,"test");
+        lAdapter.setDeck(deck);
         lAdapter.setTeam(0);
+        list.setAdapter(lAdapter);
 
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View v,
+            public boolean onItemLongClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                popUp=new PopupWindow(new CardViewFullScreen(getApplicationContext(),collection[position],popUpWidth,popUpHeight),popUpWidth,popUpHeight);
+                popUp=new PopupWindow(new CardViewFullScreen(getApplicationContext(),collection[position],popUpWidth,popUpHeight),popUpWidth,popUpHeight+100);
                 popUp.setOutsideTouchable(true);
                 popUp.setTouchable(true);
                 popUp.setBackgroundDrawable(new ColorDrawable());
-                if(!clicked)
+                if(!popUp.isShowing())
                 {
                     popUp.showAtLocation(v, Gravity.CENTER, 0, 0);
-                    clicked=true;
+                    return true;
                 }
                 else
                 {
                     popUp.dismiss();
-                    clicked=false;
+                    return false;
                 }
-
-                /*if(popUp.isOutsideTouchable()&&popUp.isShowing())
-                {
-                    popUp.dismiss();
-                }*/
             }
         });
         btn_return.setOnClickListener(new View.OnClickListener()
@@ -105,9 +105,17 @@ public class MyCollection extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), Connected.class));
             }
         });
+
+        btn_mydecks.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), MyDecks.class));
+            }
+        });
     }
 
-    public int min(int width, int height) {
+    public static int min(int width, int height) {
         if(width<height){
             return width;
         }

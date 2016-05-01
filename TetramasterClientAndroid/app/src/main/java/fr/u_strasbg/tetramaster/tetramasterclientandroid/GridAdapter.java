@@ -37,7 +37,7 @@ public class GridAdapter extends BaseAdapter {
     }
 
     public void placeCardCell(Card card, int x, int y, int team) {
-        cell[y * 4 + x] = new CardView(mContext, card, team, false);
+        cell[y * 4 + x] = new CardView(mContext, card, team, false, false, false);
     }
 
     @Override
