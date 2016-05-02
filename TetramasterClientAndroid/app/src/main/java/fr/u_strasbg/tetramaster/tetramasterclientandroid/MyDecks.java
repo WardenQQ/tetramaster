@@ -25,15 +25,16 @@ public class MyDecks extends AppCompatActivity{
         ListView listView = (ListView) findViewById(R.id.list_decks);
 
         boolean[] arrows = {true,false,true,true,true,false,true,false};
-        Card card = new Card(arrows,2,3,4,"Magic", "Cathedralol");
+        Card card = new Card(arrows,2,3,4,"Magic", "Cathedrale de Strasbourg");
         Card[] listCards = new Card[5];
         listCards[0] = card;
         listCards[1] = card;
         listCards[2] = card;
         listCards[3] = card;
         listCards[4] = card;
-        Deck testDeck = new Deck(1,listCards,"testDeck");
-        Deck testDeck2 = new Deck(2,listCards,"COUCOU");
+        Deck testDeck = new Deck(1,listCards,"Mon Deck 1");
+        Deck testDeck2 = new Deck(2,listCards,"Mon Deck 2");
+        //recuperation des decks depuis la bdd
         ArrayList<Deck> listDecks = new ArrayList<Deck>();
         listDecks.add(testDeck);
         listDecks.add(testDeck2);

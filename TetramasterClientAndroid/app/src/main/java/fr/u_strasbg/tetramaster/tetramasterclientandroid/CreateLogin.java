@@ -128,8 +128,9 @@ public class CreateLogin extends AppCompatActivity {
         {
             @Override
             public void onClick(View view) {
-                //insert into database here
+                //insert into User values(null,pseudo.getText(),password.getText()
                 Toast.makeText(getApplicationContext(), "Votre compte a ete cree", Toast.LENGTH_SHORT).show();
+                //retour a la page d'accueil
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         });

@@ -225,6 +225,7 @@ public class CardView extends View {
                 {
                     if(button.contains((int)touchX,(int)touchY)){
                         AddCardToDeck.addToTmpDeck(myCard);
+                        Toast.makeText(context,"Carte ajoutée au deck",Toast.LENGTH_SHORT).show();
                     }
                 break;
                 }

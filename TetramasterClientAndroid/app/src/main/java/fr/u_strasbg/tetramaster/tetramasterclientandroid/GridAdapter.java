@@ -1,8 +1,5 @@
 package fr.u_strasbg.tetramaster.tetramasterclientandroid;
 
-/**
- * Created by Ricardo on 02/12/2015.
- */
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;

@@ -12,6 +12,7 @@ import android.support.v7.widget.*;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
 import android.widget.ListPopupWindow;
@@ -26,7 +27,7 @@ public class AddCardToDeck extends AppCompatActivity {
     Card[] collection;
     static List<Card> listTmp;
     static Activity activity;
-    PopupWindow popUp;
+    PopupWindow popUp, popUpDeckName;
     public static ListPopupWindow popUpList;
     Button btn_return;
     static Button btn_createDeck, btn_viewdeck;
@@ -145,7 +146,7 @@ public class AddCardToDeck extends AppCompatActivity {
                 popUpList.setWidth(popUpWidth);
                 popUpList.setHeight(popUpHeight);
                 popUpList.setAnchorView(view);
-                popUpList.setDropDownGravity(Gravity.TOP|Gravity.LEFT);
+                popUpList.setDropDownGravity(Gravity.TOP|Gravity.START);
                 popUpList.setModal(true);
                 popUpList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -164,14 +165,31 @@ public class AddCardToDeck extends AppCompatActivity {
                 }
             }
         });
-
+        LayoutInflater layoutInflater =
+                (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        final View popUpView = layoutInflater.inflate(R.layout.popup_namedeck, null);
         btn_createDeck.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view) {
                 //add deck to db
-                Toast.makeText(activity,"Le deck a bien été ajouté",Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(), MyDecks.class));
+                popUpDeckName = new PopupWindow(popUpView);
+                popUpDeckName.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+                popUpDeckName.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
+                popUpDeckName.showAtLocation(popUpView, Gravity.CENTER, 0, 0);
+                popUpDeckName.setOutsideTouchable(false);
+                popUpDeckName.setFocusable(true);
+                popUpDeckName.update();
+                Button popUpAddButton = (Button) popUpView.findViewById(R.id.buttonAddDeckName);
+                final EditText editTextNameDeck = (EditText) popUpView.findViewById(R.id.editTextNameDeck);
+                popUpAddButton.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(activity,"Le deck "+ editTextNameDeck.getText() +" a bien été ajouté",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), MyDecks.class));
+                    }
+                });
             }
         });
     }
@@ -193,7 +211,6 @@ public class AddCardToDeck extends AppCompatActivity {
             }
             btn_viewdeck.setEnabled(true);
             listTmp.add(card);
-
         }
     }
 }

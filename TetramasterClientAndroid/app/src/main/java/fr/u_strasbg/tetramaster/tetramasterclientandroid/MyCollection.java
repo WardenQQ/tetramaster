@@ -22,10 +22,7 @@ public class MyCollection extends AppCompatActivity {
     Button btn_return, btn_mydecks;
     boolean[] arrows = {true,false,true,true,true,false,true,false};
     private static final String TAG = "MyDebug";
-    Card card = new Card(arrows,2,3,4,"Magic", "Cathedralol");
-    Card card2 = new Card(arrows,5,1,7,"Physical", "Cathedralol");
-    Card card3 = new Card(arrows,10,1,12,"Toto", "Pole APILOL");
-    Card card4 = new Card(arrows,1,13,14,"TOTO", "In hell");
+    Card card = new Card(arrows,2,3,4,"Magic", "Cathedrale de Strasbourg");
     private int popUpWidth, popUpHeight, cardWidth, cardHeight,windowWidth, windowHeight;
 
     @Override
@@ -52,7 +49,7 @@ public class MyCollection extends AppCompatActivity {
         lAdapter.setViewCardName(true);
 
         Log.d(TAG, "window Width:" + windowWidth + " window height : "+ windowHeight);
-        collection = new Card[20];
+        collection = new Card[10];
         collection[0]=card;
         collection[1]=card;
         collection[2]=card;
@@ -63,17 +60,9 @@ public class MyCollection extends AppCompatActivity {
         collection[7]=card;
         collection[8]=card;
         collection[9]=card;
-        collection[10]=card2;
-        collection[11]=card2;
-        collection[12]=card2;
-        collection[13]=card2;
-        collection[14]=card2;
-        collection[15]=card3;
-        collection[16]=card4;
-        collection[17]=card2;
-        collection[18]=card2;
-        collection[19]=card2;
+
         Deck deck = new Deck(1,collection,"test");
+        //recuperer le deck depuis la BDD ici et le mettre dans listAdapter
         lAdapter.setDeck(deck);
         lAdapter.setTeam(0);
         list.setAdapter(lAdapter);

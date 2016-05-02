@@ -28,7 +28,6 @@ public class SelectPseudo extends AppCompatActivity {
         btn_send = (Button) findViewById(R.id.buttonSend);
         chosenPseudo = (EditText) findViewById(R.id.chosenPseudo);
         refused = (ImageView) findViewById(R.id.imageViewRefused);
-        //this.addContentView(refused,null);
         if(name!=""&&name!=null){
             chosenPseudo.setText(name.replaceAll(" ",""));
         }
