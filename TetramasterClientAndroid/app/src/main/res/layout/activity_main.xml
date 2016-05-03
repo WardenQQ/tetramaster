@@ -36,7 +36,8 @@
             android:layout_below="@+id/textView3"/>
     <EditText android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/editTextPass"
               android:layout_below="@+id/editTextPseudo" android:layout_alignStart="@+id/editTextPseudo"
-              android:layout_alignEnd="@+id/editTextPseudo"/>
+              android:layout_alignEnd="@+id/editTextPseudo"
+                android:inputType="textPassword"/>
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
