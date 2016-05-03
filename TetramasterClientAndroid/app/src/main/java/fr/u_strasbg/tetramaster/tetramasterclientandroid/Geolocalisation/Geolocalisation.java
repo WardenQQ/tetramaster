@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -12,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,12 +27,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import fr.u_strasbg.tetramaster.tetramasterclientandroid.R;
 
@@ -60,9 +65,10 @@ public class Geolocalisation extends FragmentActivity implements OnMapReadyCallb
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new GeoGetEvent().execute((Void) null);
+        //
 
-        context = (Activity) this;
+        context = this;
+
 
         setContentView(R.layout.activity_geolocalisation);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -70,6 +76,10 @@ public class Geolocalisation extends FragmentActivity implements OnMapReadyCallb
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         //Bouton afin de crée les polygones
+        //récupération de la map
+        GeoGetEvent olo = new GeoGetEvent((Geolocalisation)context);
+        olo.execute((Void[]) null);
+        //fin de récup map
 
         btn_create = (Button) findViewById(R.id.btn_create_area);
         btn_valide = (Button) findViewById(R.id.btn_add_poly);
@@ -104,14 +114,10 @@ public class Geolocalisation extends FragmentActivity implements OnMapReadyCallb
             @Override
             public void onClick(View view) {
                 if (list_point.size() >= 3) {
-                /*    for (int j=0;j<list_marker.size();j++){
+                    for (int j=0;j<list_marker.size();j++){
                         list_marker.get(j);
-                    }*/
+                    }
                     final PolygonOptions polygon = new PolygonOptions().addAll(list_point);
-
-                    //polygon.strokeColor(Color.RED);
-                    //polygon.fillColor(0x5500ff00);
-                    //polygon.strokeWidth(2);
 
                     StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                     StrictMode.setThreadPolicy(policy);
@@ -130,23 +136,38 @@ public class Geolocalisation extends FragmentActivity implements OnMapReadyCallb
 
                             String name = nameEvent.getText().toString();
                             String desc = descEvent.getText().toString();
-                            GeoConnect ajout = new GeoConnect();
+                            GeoConnect coPost = new GeoConnect();
                             try {
-                                ajout.sendPOST(name, desc, polygon);
+                                coPost.sendPOST(name,desc,polygon);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            list_polygon.add(polygon);
-                            for (int i = 0; i < list_marker.size(); i++) {
-                                list_marker.get(i).remove();
-                            }
-                            for (int i = 0; i < list_polygon.size(); i++) {
-                                mMap.addPolygon(list_polygon.get(i));
+                            /*JSONObject jsonInsert = new JSONObject();
+                            try {
+                                jsonInsert.put("nameEvent",name);
+                                jsonInsert.put("descEvent",desc);
 
-                            }
-                            list_point.clear();
+                                List<LatLng> points = polygon.getPoints();
+                                String pointLat = "";
+                                String pointLong = "";
+                                for (int i =0;i<points.size();i++){
+                                    pointLat += String.valueOf(points.get(i).latitude)+"|";
+                                    pointLong += String.valueOf(points.get(i).longitude)+"|";
+                                }
+                                jsonInsert.put("pointLat",pointLat);
+                                jsonInsert.put("pointLong",pointLong);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }*/
+
+                            //GeoSetEvent test = new GeoSetEvent((Geolocalisation)context);
+                            //test.execute(jsonInsert);
+                            GeoGetEvent olo = new GeoGetEvent((Geolocalisation)context);
+                            olo.execute((Void[]) null);
+
                         }
                     });
                     builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
@@ -160,11 +181,6 @@ public class Geolocalisation extends FragmentActivity implements OnMapReadyCallb
                     });
                     builder.create();
                     builder.show();
-
-
-                    //
-
-
                 }
             }
         });
@@ -178,11 +194,60 @@ public class Geolocalisation extends FragmentActivity implements OnMapReadyCallb
                 }
             }
         });
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
+    public void afficheMap(JSONArray json_event){
+        //faire les taches ici
+        mMap.clear();
+        // peut planté à cause de ça
+        list_point.clear();
+        // fin merdouille
+        PolygonOptions polygon;
+        LatLng point;
+        JSONObject event = new JSONObject();
+        List<LatLng> list_point = new ArrayList<LatLng>();
+        for(int i =0;i<json_event.length();i++) {
+            try {
+                event = json_event.getJSONObject(i);
+                String lat_polys = event.getString("pointLat");
+                String lon_polys = event.getString("pointLong");
+                //#parsing dégeulasse by yann ! :D
+                String[] lat_pts = lat_polys.split("\\|");
+                String[] lon_pts = lon_polys.split("\\|");
+                //point générateur
+                for(int j = 0; j<lat_pts.length;j++){
+                    point = new LatLng(Double.parseDouble(lat_pts[j]),Double.parseDouble(lon_pts[j]));
+                    list_point.add(point);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            polygon = new PolygonOptions();
+            polygon.addAll(list_point);
+
+            //Atelier dessin !!!!
+            polygon.strokeColor(Color.BLACK);
+            Random rnd = new Random();
+            int color = Color.argb(128, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+            polygon.fillColor(color);
+            polygon.strokeWidth(2);
+            //on ajoute le polygon et on supprime les points
+            list_polygon.add(polygon);
+            list_point.clear();
+        }
+
+
+        for (int i = 0; i < list_polygon.size(); i++) {
+            mMap.addPolygon(list_polygon.get(i));
+
+        }
+        System.out.println("lololo " + json_event.toString());
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -201,6 +266,7 @@ public class Geolocalisation extends FragmentActivity implements OnMapReadyCallb
                             .position(latLng));
                     list_marker.add(marker);
                 }
+
             }
         });
 
@@ -224,6 +290,7 @@ public class Geolocalisation extends FragmentActivity implements OnMapReadyCallb
                 Uri.parse("android-app://fr.u_strasbg.tetramaster.tetramasterclientandroid/http/host/path")
         );
         AppIndex.AppIndexApi.start(client, viewAction);
+
     }
 
     @Override
@@ -245,4 +312,5 @@ public class Geolocalisation extends FragmentActivity implements OnMapReadyCallb
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
     }
+
 }

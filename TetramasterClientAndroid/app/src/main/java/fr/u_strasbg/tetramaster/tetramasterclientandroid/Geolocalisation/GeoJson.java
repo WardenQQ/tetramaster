@@ -17,7 +17,7 @@ public class GeoJson {
         JSONObject json_event = new JSONObject();
         return json_event;
     }
-    public List<PolygonOptions> getJsonEvent(){
+    public List<PolygonOptions> getJsonEvent(JSONObject json_event){
         List<PolygonOptions> listEvent = new ArrayList<PolygonOptions>();
         return listEvent;
     }
