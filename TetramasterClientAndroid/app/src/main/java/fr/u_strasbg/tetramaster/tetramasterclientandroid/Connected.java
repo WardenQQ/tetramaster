@@ -9,10 +9,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import com.facebook.*;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.FacebookSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInApi;
-import com.google.android.gms.common.api.GoogleApiClient;
+
+import fr.u_strasbg.tetramaster.tetramasterclientandroid.Geolocalisation.Geolocalisation;
 
 public class Connected extends AppCompatActivity {
     String addr;

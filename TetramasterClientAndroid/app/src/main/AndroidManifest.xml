@@ -40,7 +40,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".Geolocalisation"
+            android:name=".Geolocalisation.Geolocalisation"
             android:label="@string/title_activity_geolocalisation" >
         </activity>
         <activity android:name=".Grid" />
