@@ -5,33 +5,22 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".Connected"
-    android:background="#ffffff"
+    android:background="#e6f2f2"
     android:contextClickable="false">
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dire coucou"
-        android:id="@+id/btn_envois"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="142dp"
-        android:clickable="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Geoloc Carte"
         android:id="@+id/btn_geoloc"
-        android:layout_below="@+id/buttonGrid" android:layout_alignStart="@+id/btn_envois"/>
+        android:layout_above="@+id/btn_myevents" android:layout_centerHorizontal="true"/>
 
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Aller a la grille"
             android:id="@+id/buttonGrid"
-            android:layout_marginTop="67dp"
-            android:layout_centerHorizontal="true" android:layout_below="@+id/btn_envois"/>
+            android:layout_above="@+id/btn_geoloc" android:layout_alignStart="@+id/btn_myevents"/>
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,13 +30,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ma Collection"
-            android:id="@+id/btn_collection" android:layout_centerHorizontal="true"
-            android:layout_below="@+id/btn_envois"/>
+            android:id="@+id/btn_collection"
+            android:layout_above="@+id/buttonGrid" android:layout_centerHorizontal="true"/>
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Mes évenements"
-            android:id="@+id/btn_myevents" android:layout_below="@+id/btn_geoloc"
-            android:layout_alignStart="@+id/btn_collection"/>
+            android:id="@+id/btn_myevents"
+            android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"
+            android:layout_marginBottom="52dp"/>
 
 </RelativeLayout>

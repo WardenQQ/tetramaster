@@ -225,7 +225,7 @@ public class Grid extends AppCompatActivity {
         protected void onProgressUpdate(Integer... values) {
             switch (values[0]) {
                 case stateSetDeck:
-                    lAdapter.setDeck(deck);
+                    //lAdapter.setDeck(deck);
                     lAdapter.setTeam(team);
                     lAdapter.notifyDataSetChanged();
                     break;

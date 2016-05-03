@@ -1,8 +1,10 @@
 package fr.u_strasbg.tetramaster.tetramasterclientandroid;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
@@ -19,10 +21,13 @@ public class MyEvents extends AppCompatActivity {
     ArrayList<Integer> eventsIds;
     ArrayList<String> eventsBeginDate, eventsEndDate;
     ArrayAdapter<String> eventsNameAdapter;
+    private int windowWidth, windowHeight;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_myevents);
         btn_return = (Button) findViewById(R.id.btn_return);
         populateListView();
@@ -34,7 +39,11 @@ public class MyEvents extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), Connected.class));
             }
         });
-
+        Point size = new Point();
+        Display display = getWindowManager().getDefaultDisplay();
+        display.getSize(size);
+        windowWidth = size.x;
+        windowHeight = size.y;
     }
 
     private void populateListView(){
@@ -58,7 +67,7 @@ public class MyEvents extends AppCompatActivity {
         //SELECT * FROM EVENTS WHERE USER_ID = ...
         //FOREACH RESULT ...
         for(int i=0;i<eventsName.size();i++) {
-            showName.add(eventsName.get(i) + " Débute le " + eventsBeginDate.get(i) + ", finit le " + eventsEndDate.get(i));
+            showName.add(eventsName.get(i) + "\nDébute le " + eventsBeginDate.get(i) + ", finit le " + eventsEndDate.get(i));
         }
         eventsNameAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.listeventitems, showName) {
             @Override
@@ -68,7 +77,7 @@ public class MyEvents extends AppCompatActivity {
                 // Get the Layout Parameters for ListView Current Item View
                 ViewGroup.LayoutParams params = view.getLayoutParams();
                 // Set the height of the Item View
-                params.height = 40;
+                params.height = min(windowWidth,windowHeight)/5;
                 view.setLayoutParams(params);
                 return view;
             }
@@ -94,5 +103,14 @@ public class MyEvents extends AppCompatActivity {
                 startActivity(goToOneEvent);
             }
         });
+    }
+
+    public int min(int width, int height) {
+        if(width<height){
+            return width;
+        }
+        else{
+            return height;
+        }
     }
 }

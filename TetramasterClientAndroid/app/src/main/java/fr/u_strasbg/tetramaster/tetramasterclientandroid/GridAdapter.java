@@ -1,8 +1,5 @@
 package fr.u_strasbg.tetramaster.tetramasterclientandroid;
 
-/**
- * Created by Ricardo on 02/12/2015.
- */
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +34,7 @@ public class GridAdapter extends BaseAdapter {
     }
 
     public void placeCardCell(Card card, int x, int y, int team) {
-        cell[y * 4 + x] = new CardView(mContext, card, team, false);
+        cell[y * 4 + x] = new CardView(mContext, card, team, false, false, false);
     }
 
     @Override

@@ -1,181 +1,72 @@
 package fr.u_strasbg.tetramaster.tetramasterclientandroid;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.facebook.*;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.*;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.GoogleApiClient;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
+public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MyDebug";
     private static final int RC_SIGN_IN = 9001;
-    CallbackManager callbackManager;
-    Button btn_connect;
-    LoginButton loginButton;
-    private GoogleApiClient mGoogleApiClient;
-    EditText txt_connect;
-    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .build();
-
-
+    private static final String url =  "http://tetramaster.u-strasbg.fr/connectBDD.php";
+    private boolean bddCorrectLogin = true;
+    Button btn_connect, btn_createLogin;
+    EditText txt_pseudo, txt_pass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
 
         setContentView(R.layout.activity_main);
         /*addr = "192.168.0.134";//"130.79.206.217";
         port = 1024;*/
-        SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
-        signInButton.setSize(SignInButton.SIZE_STANDARD);
-        signInButton.setScopes(gso.getScopeArray());
-        signInButton.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                switch (v.getId()) {
-                                                    case R.id.sign_in_button:
-                                                        signIn();
-                                                        break;
 
-                                                }
-                                            }
-                                        });
+        txt_pseudo = (EditText) findViewById(R.id.editTextPseudo);
+        txt_pass = (EditText) findViewById(R.id.editTextPass);
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, null /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
+        btn_connect = (Button) findViewById(R.id.connectButton);
+        btn_createLogin = (Button) findViewById(R.id.btn_createLogin);
 
-        callbackManager = CallbackManager.Factory.create();
-        loginButton = (LoginButton) findViewById(R.id.login_button_fb);
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-
-                checkFacebookLoginDb(loginResult);
-            }
-
-            @Override
-            public void onCancel() {
-                Toast.makeText(getApplicationContext(), "LOG VIA FB CANCEL", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
-                Toast.makeText(getApplicationContext(), "LOG VIA FB FAIIIIIIL", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        btn_connect      = (Button) findViewById(R.id.connectButton);
+        Point size = new Point();
+        Display display = getWindowManager().getDefaultDisplay();
+        display.getSize(size);
 
         btn_connect.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), Connected.class));
+                //effectuer demande login bdd ici
+                if(!bddCorrectLogin ) {
+                    Toast.makeText(getApplicationContext(), "Identifiants incorrects", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    startActivity(new Intent(getApplicationContext(), Connected.class));
+                }
             }
         });
-        Log.d(TAG, "token fb :" + isAlreadyConnected("Facebook"));
-        if(isAlreadyConnected("Facebook")){
-            startActivity(new Intent(getApplicationContext(), Connected.class));
-        }
-        else if(isAlreadyConnected("Google")){
-            startActivity(new Intent(getApplicationContext(), Connected.class));
-        }
-    }
 
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
-        // be available.
-        Log.d(TAG, "onConnectionFailed:" + connectionResult);
-    }
-    @Override
-    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            GoogleSignInAccount acct = result.getSignInAccount();
-            checkGoogleLoginDb(acct);
-            Toast.makeText(getApplicationContext(),"LOG VIA GOOGLLLLEEEEEEE", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            super.onActivityResult(requestCode, resultCode, data);
-            callbackManager.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
-    private void checkGoogleLoginDb(GoogleSignInAccount acct) {
-        int count;
-        //Query database -> select count(*) from users where idGoogle=acct.getSignInAccount();
-        //on stocke le resultat dans count, mais en attendant on set count a 0
-        count=0;
-        if(count==0) {
-            Bundle parameters = new Bundle();
-            parameters.putString("name",acct.getDisplayName());
-            parameters.putString("id",acct.getId());
-            Intent goToPseudoChoice = new Intent(this,SelectPseudo.class);
-            goToPseudoChoice.putExtras(parameters);
-            startActivity(goToPseudoChoice);
-        }
-        else{
-            startActivity(new Intent(getApplicationContext(), Connected.class));
-        }
-    }
-
-    private void checkFacebookLoginDb(LoginResult loginResult) {
-        int count;
-        //Query database -> select count(*) from users where idGoogle=acct.getSignInAccount();
-        //on stocke le resultat dans count, mais en attendant on set count a 0
-        count=0;
-        if(count==0) {
-            Bundle parameters = new Bundle();
-            Toast.makeText(getApplicationContext(), loginResult.getAccessToken().getUserId()+"LOG VIA FB OK", Toast.LENGTH_SHORT).show();
-            Profile currentProfile = Profile.getCurrentProfile();
-            parameters.putString("id",loginResult.getAccessToken().getUserId());
-            Log.d(TAG,"Name : "+currentProfile.getName());
-            parameters.putString("name",currentProfile.getName());
-            Intent goToPseudoChoice = new Intent(this,SelectPseudo.class);
-            goToPseudoChoice.putExtras(parameters);
-            startActivity(goToPseudoChoice);
-        }
-        else{
-            startActivity(new Intent(getApplicationContext(), Connected.class));
-        }
-    }
-
-    public boolean isAlreadyConnected(String typeConnection){
-        boolean response= false;
-        if(typeConnection=="Facebook"){
-            AccessToken token = AccessToken.getCurrentAccessToken();
-            if(token!=null){
-                response=true;
+        btn_createLogin.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), CreateLogin.class));
             }
-        }
-        else if(typeConnection=="Google"){
-            if (mGoogleApiClient.isConnected()){
-                response=true;
-            }
-        }
-        return response;
+        });
     }
 
-    private void signIn(){
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
 }

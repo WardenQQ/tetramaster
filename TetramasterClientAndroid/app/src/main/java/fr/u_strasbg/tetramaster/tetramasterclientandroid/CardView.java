@@ -1,13 +1,12 @@
 package fr.u_strasbg.tetramaster.tetramasterclientandroid;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.Point;
-import android.view.View;
+import android.content.Intent;
+import android.graphics.*;
+import android.view.*;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 import fr.u_strasbg.tetramaster.shared.Card;
 
 public class CardView extends View {
@@ -15,30 +14,40 @@ public class CardView extends View {
     public fr.u_strasbg.tetramaster.shared.Card myCard;
     public int joueur;
     public boolean clickable;
-    public CardView(Context context, Card card, int joueur, boolean clickable)
+    private boolean showName;
+    private boolean showButtonAdd;
+    private int cardWidth;
+    private int cardHeight;
+    private int arrowSize;
+    private int windowWidth;
+    private Context context;
+    private Rect button;
+    public Bitmap bitmap;
+    public CardView(Context context, Card card, int joueur, boolean clickable, boolean showName, boolean showButtonAdd)
     {
         super(context);
+        this.context = context;
         myCard=card;
         this.joueur=joueur;
         this.clickable=clickable;
+        this.showName=showName;
+        this.showButtonAdd = showButtonAdd;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        int x=100;
-        int y=100;
+        int x=getCardWidth();
+        int y=getCardHeight();
+        canvas.drawColor(Color.WHITE);
+        arrowSize = x/20;
         Paint paintCard = new Paint();
         paintCard.setStyle(Paint.Style.FILL);
-        if(this.joueur==0)
-        {
-            paintCard.setColor(Color.BLUE);
-        }
-        else if(this.joueur==1)
-        {
-            paintCard.setColor(Color.RED);
-        }
-        canvas.drawRect(0, 0, x, y, paintCard);
+        paintCard.setColor(Color.WHITE);
+        canvas.drawRect(0, 0, this.windowWidth, y, paintCard);
+        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.test);
+        bitmap = Bitmap.createScaledBitmap(bitmap, x,y,true);
+        canvas.drawBitmap(bitmap,0,0,paintCard);
         Paint paintClickable = new Paint();
         paintClickable.setStyle(Paint.Style.FILL);
         paintClickable.setColor(Color.BLACK);
@@ -55,8 +64,8 @@ public class CardView extends View {
         if(myCard.getArrays()[0])
         {
             Point pt1=new Point(x/2,0);
-            Point pt2=new Point(x/2+10,10);
-            Point pt3=new Point(x/2-10,10);
+            Point pt2=new Point(x/2+arrowSize,arrowSize);
+            Point pt3=new Point(x/2-arrowSize,arrowSize);
 
             Path path = new Path();
             path.setFillType(Path.FillType.EVEN_ODD);
@@ -68,9 +77,9 @@ public class CardView extends View {
         }
         if (myCard.getArrays()[1])
         {
-            Point pt1=new Point(x-10,0);
+            Point pt1=new Point(x-arrowSize,0);
             Point pt2=new Point(x,0);
-            Point pt3=new Point(x,10);
+            Point pt3=new Point(x,arrowSize);
 
             Path path = new Path();
             path.setFillType(Path.FillType.EVEN_ODD);
@@ -83,8 +92,8 @@ public class CardView extends View {
         if (myCard.getArrays()[2])
         {
             Point pt1=new Point(x,y/2);
-            Point pt2=new Point(x-10,y/2-10);
-            Point pt3=new Point(x-10,y/2+10);
+            Point pt2=new Point(x-arrowSize,y/2-arrowSize);
+            Point pt3=new Point(x-arrowSize,y/2+arrowSize);
 
             Path path = new Path();
             path.setFillType(Path.FillType.EVEN_ODD);
@@ -97,8 +106,8 @@ public class CardView extends View {
         if (myCard.getArrays()[3])
         {
             Point pt1=new Point(x,y);
-            Point pt2=new Point(x-10,y);
-            Point pt3=new Point(x,y-10);
+            Point pt2=new Point(x-arrowSize,y);
+            Point pt3=new Point(x,y-arrowSize);
 
             Path path = new Path();
             path.setFillType(Path.FillType.EVEN_ODD);
@@ -111,8 +120,8 @@ public class CardView extends View {
         if (myCard.getArrays()[4])
         {
             Point pt1=new Point(x/2,y);
-            Point pt2=new Point(x/2+10,y-10);
-            Point pt3=new Point(x/2-10,y-10);
+            Point pt2=new Point(x/2+arrowSize,y-arrowSize);
+            Point pt3=new Point(x/2-arrowSize,y-arrowSize);
 
             Path path = new Path();
             path.setFillType(Path.FillType.EVEN_ODD);
@@ -125,8 +134,8 @@ public class CardView extends View {
         if (myCard.getArrays()[5])
         {
             Point pt1=new Point(0,y);
-            Point pt2=new Point(10,y);
-            Point pt3=new Point(0,y-10);
+            Point pt2=new Point(arrowSize,y);
+            Point pt3=new Point(0,y-arrowSize);
 
             Path path = new Path();
             path.setFillType(Path.FillType.EVEN_ODD);
@@ -139,8 +148,8 @@ public class CardView extends View {
         if (myCard.getArrays()[6])
         {
             Point pt1=new Point(0,y/2);
-            Point pt2=new Point(10,y/2+10);
-            Point pt3=new Point(10,y/2-10);
+            Point pt2=new Point(arrowSize,y/2+arrowSize);
+            Point pt3=new Point(arrowSize,y/2-arrowSize);
 
             Path path = new Path();
             path.setFillType(Path.FillType.EVEN_ODD);
@@ -153,8 +162,8 @@ public class CardView extends View {
         if (myCard.getArrays()[7])
         {
             Point pt1=new Point(0,0);
-            Point pt2=new Point(10,0);
-            Point pt3=new Point(0,10);
+            Point pt2=new Point(arrowSize,0);
+            Point pt3=new Point(0,arrowSize);
 
             Path path = new Path();
             path.setFillType(Path.FillType.EVEN_ODD);
@@ -164,13 +173,103 @@ public class CardView extends View {
             path.close();
             canvas.drawPath(path,paintArray);
         }
-        int def = myCard.getMagicalDef();
-        int atq = myCard.getAttack();
         Paint paintText = new Paint();
         paintText.setColor(Color.YELLOW);
         paintText.setTextSize(16);
-        canvas.drawText(String.valueOf(atq),70,y/2,paintText);
-        canvas.drawText(String.valueOf(def),30,y/2,paintText);
+        String atqHex=Integer.toHexString(myCard.getAttack()).toUpperCase();
+        String physDefHex=Integer.toHexString(myCard.getPhysicalDef()).toUpperCase();
+        String magDefHex=Integer.toHexString(myCard.getMagicalDef()).toUpperCase();
+        String type = myCard.getPowerType().toUpperCase();
+        String attributes = atqHex+type+physDefHex+magDefHex;
+        String cardName = myCard.getCardName();
+        Rect bounds = new Rect();
+        paintText.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        paintText.setTextSize(20);
+        paintText.getTextBounds(attributes, 0, attributes.length(), bounds);
+        int offset = (getCardWidth() / 2) - (bounds.width() / 2);
+        canvas.drawText(attributes,offset,y/2,paintText);
+        Paint paintName = new Paint();
+        paintName.setColor(Color.BLACK);
+        paintName.setTextSize(30);
+        Paint paintRect = new Paint();
+        paintRect.setColor(Color.LTGRAY);
+        paintRect.setStyle(Paint.Style.FILL);
+
+        if(isShowName()) {
+            canvas.drawText(cardName, x + 20, y / 2, paintName);
+        }
+        if(isShowButtonAdd()) {
+            Rect button = new Rect();
+            Rect sizeButton = new Rect();
+            String add = "Ajouter carte";
+            paintName.getTextBounds(add, 0, add.length(), sizeButton);
+            button.set(windowWidth - cardWidth, y / 2 - 50, windowWidth - cardWidth + sizeButton.width(), y / 2 + 50);
+            canvas.drawRect(button, paintRect);
+            canvas.drawText("Ajouter carte", windowWidth - cardWidth, y / 2, paintName);
+            this.button = button;
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        float touchX = event.getX();
+        float touchY = event.getY();
+        switch(event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                if(AddCardToDeck.popUpList!=null) {
+                    if (AddCardToDeck.popUpList.isShowing()) {
+                        AddCardToDeck.popUpList.dismiss();
+                    }
+                }
+                if(button!=null)
+                {
+                    if(button.contains((int)touchX,(int)touchY)){
+                        AddCardToDeck.addToTmpDeck(myCard);
+                        Toast.makeText(context,"Carte ajoutée au deck",Toast.LENGTH_SHORT).show();
+                    }
+                break;
+                }
+        }
+        return super.onTouchEvent(event);
+    }
+
+    public int getCardWidth() {
+        return this.cardWidth;
+    }
+
+    public void setCardWidth(int windowWidth){
+        this.cardWidth = windowWidth;
+    }
+
+    public int getCardHeight() {
+        return this.cardHeight;
+    }
+
+    public void setCardHeight(int windowHeight){
+        this.cardHeight = windowHeight;
+    }
+
+    public int getWindowWidth() {
+        return windowWidth;
+    }
+
+    public void setWindowWidth(int windowWidth) {
+        this.windowWidth = windowWidth;
+    }
+
+    public boolean isShowName() {
+        return showName;
+    }
+
+    public void setShowName(boolean showName) {
+        this.showName = showName;
+    }
+    public boolean isShowButtonAdd() {
+        return showButtonAdd;
+    }
+
+    public void setShowButtonAdd(boolean showButtonAdd) {
+        this.showButtonAdd = showButtonAdd;
     }
 
 }
