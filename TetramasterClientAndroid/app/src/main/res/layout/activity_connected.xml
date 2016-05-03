@@ -11,9 +11,12 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Geoloc Carte"
+        android:text="Voir la carte"
         android:id="@+id/btn_geoloc"
-        android:layout_above="@+id/btn_myevents" android:layout_centerHorizontal="true"/>
+        android:layout_above="@+id/btn_myevents"
+        android:layout_centerHorizontal="true"
+        android:layout_alignStart="@+id/btn_myevents"
+        android:layout_alignEnd="@id/buttonGrid"/>
 
     <Button
             android:layout_width="wrap_content"
@@ -31,7 +34,10 @@
             android:layout_height="wrap_content"
             android:text="Ma Collection"
             android:id="@+id/btn_collection"
-            android:layout_above="@+id/buttonGrid" android:layout_centerHorizontal="true"/>
+            android:layout_above="@+id/buttonGrid"
+            android:layout_alignStart="@+id/btn_myevents"
+            android:layout_alignEnd="@id/buttonGrid"
+            android:layout_centerHorizontal="true"/>
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
